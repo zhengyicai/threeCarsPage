@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>首次下单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="./css/app.css"/>
+		<link rel="stylesheet" type="text/css" href="./css/mui.picker.min.css" />
+	</head>
+	<style type="text/css">
+		* { touch-action: none; }
+	.money-o{
+		text-align: center;
+		font-size: 24px;
+		color: #333;
+		margin: 20px;
+	}.money-o span{
+		text-align: center;
+		font-size: 26px;
+		color: #FF0006;
+	}
+	.radio-item{
+		display: flex;justify-content: center;
+		flex-wrap: wrap;
+	}
+	.radio-item .radio-o{
+		width: 40%;
+		height: 30px;
+		border: 1px solid #1313;
+		margin: 5px;
+		text-align:center;
+		line-height: 30px;
+		font-size: 14px;				
+	}
+	.radio-item  :active{
+		border: 1px solid #59BA2D;
+		background: #59BA2D;
+	}
+	.yugu{
+		text-align: center;
+		font-size: 16px;
+	
+	} 
+	.yugu :last-child{
+		color: red;
+	} 
+	.provice-item{
+		display: flex;justify-content: flex-start;
+	}.provice-item .provice-o{
+		flex: 1;
+	}
+	.provice-item .provice-t{
+		flex: 3;
+		display: flex;justify-content: flex-start;
+	}
+	.provice-item .provice-t .provice-l{
+		width: 150px;
+		height: 32px;
+		line-height: 31px;
+		border: 1px solid #59BA2D;
+		border-radius: 10px 0 0 10px;	
+		}
+	.provice-item .provice-t .provice-r{
+		width: 150px;
+		height: 30px;    
+		line-height: 3px;
+		border: 1px solid #59BA2D;
+		border-radius: 0 10px  10px  0 ;	
+	}
+	.mui-segmented-control {
+    border: 0px;
+	}
+	.mui-btn-block {
+	    font-size: 13px;
+	    display: block;
+	    width: 100%;
+	    margin-bottom: 10px;
+	    padding: 15px 0;
+	}
+	.cell-item{
+		width: 100%;
+		background: #fff;
+		margin:-10px;
+		margin-bottom:-10px;
+	}
+	.cell-item .radio-add{
+	    margin-left: 60px;
+	    line-height: 10px;
+	    margin-top: 17px;
+	}
+	.cell-item .mui-input-group .mui-input-row {
+	    height: 65px;
+	    line-height: 65px;
+		display: flex;
+	    justify-content: space-between;
+	}
+	.cell-item  .mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before {
+	    line-height: 2;
+	}
+	.card-button .mui-btn, .card-button button, .card-button input[type=button], .card-button input[type=reset], .card-button input[type=submit] {
+	    width: 100%;
+	}
+	.table-span span{
+		margin-left: 50px;
+		color: #777777;}
+	
+	.cell-item .mui-card {
+	    font-size: 14px;
+	    position: relative;
+	    overflow: hidden;
+	    margin: 10px;
+	    margin-left: 0px;
+	    width: 100%;
+	    border-radius: 2px;
+	    background-color: #fff;
+	    background-clip: padding-box;
+	    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+	}
+	.add-add{
+		 font-size: 14px;
+        height: 30px;
+		line-height: 30px;
+	    position: relative;
+	    overflow: hidden;
+	    margin: 10px;
+	    padding-left: 0px;
+	    width: 100%;
+	}
+	.mui-segmented-control .mui-control-item.mui-active {
+    color: #fff;
+    background-color: #59BA2D;
+}
+	.mui-segmented-control .mui-control-item {
+    color: #59BA2D;
+    }
+	.addressSize{
+		font-size: 12px;
+		line-height: 14px;
+		width: 230px;
+		
+	}
+	
+
+	</style>
+	<style>
+		
+	
+
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">首次下单</h1>
+		</header>
+		<div class="mui-content">
+		
+			<div class="money-o">
+				<p>今日指导价： <span id="goodsAbout"> </span> 元/斤</p>
+			</div>
+		    <div class="mui-card">
+		        <ul class="mui-table-view" id="goodsList">
+			        
+		            <!--<li class="mui-table-view-cell">纯花纸（如饮料箱）<span class="mui-pull-right">0.4/斤</span></li>
+		            <li class="mui-table-view-cell">杂纸<span class="mui-pull-right">0.1/斤</span></li>-->
+		        </ul>
+		    </div>
+		    <div class="yugu">
+		    	<p>可选择预估数量</p>
+		    	<p>（小于二十斤暂不保证上门回收）</p>
+		    	
+		    </div>
+		    <div class="radio-item">
+				<div class="radio-o" text="20">
+					20-50斤
+				</div>
+				<div class="radio-o" text="51">
+					51-100斤
+				</div>
+				<div class="radio-o" text="101">
+					101-500斤
+				</div>
+				<div class="radio-o" text="500">
+					500斤以上
+				</div>
+			</div>
+			<div class="mui-card">
+				<div style="padding: 10px 10px;" class="provice-item">
+					<div class="provice-o">
+						预约时间
+					</div>
+					<div id="segmentedControl" class="mui-segmented-control provice-t">
+						<a class="mui-control-item mui-active provice-l doors1" href="#item1">尽快上门</a>
+						<button id='demo1' data-options='{}' class="mui-control-item btn mui-btn  mui-btn-block provice-r doors2" href="#item2">预约上门</button>
+					</div>
+				</div>
+			</div>
+			<div class="mui-card">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell table-span">
+						<a class="mui-navigate-right mui-tab-item" href="#delete">回收地址<span id="addressDefault">广东省深圳市观澜喜茶</span></a>
+					</li>
+				</ul>
+				<div id="delete" class="mui-popover mui-scroll  mui-popover-action mui-popover-bottom">
+					<div class="cell-item" >
+						<div style="margin-bottom: 50px;" >
+							<form class="mui-input-group " id="addressdetail">
+								
+									
+										
+								
+							</form>
+							<div class="mui-card" style="position: absolute;bottom: 0;padding: 0px 0px; margin: 0px 0px;">
+								<div class="add-add">
+									
+									<a class="mui-navigate-right mui-tab-item" id="addAddress">新增收货地址</a>
+									
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<nav class="mui-bar mui-bar-tab" style="background-color: #59BA2D; text-align: center;line-height: 50px; color: white;font-weight: bold;    box-shadow: 0 0 0px rgba(0,0,0,0)" id="addOrder">
+				一键下单
+				<!-- <div class="mui-card card-button " >
+					<button></button>
+				</div> -->
+			</nav>
+			
+			
+			
+		</div>
+	</body>
+	<script src="./js/path.js"></script>
+	<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.picker.min.js"></script>
+	<script src="./js/jquery-v1.10.3.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		
+		
+
+		
+		window.addEventListener('toggle', function(event) {
+			if (event.target.id === 'M_Toggle') {
+				var isActive = event.detail.isActive;
+				var table = document.querySelector('.mui-table-view');
+				var card = document.querySelector('.mui-card');
+				if (isActive) {
+					card.appendChild(table);
+					card.style.display = '';
+				} else {
+					var content = document.querySelector('.mui-content');
+					content.insertBefore(table, card);
+					card.style.display = 'none';
+				}
+			}
+		});
+		
+		$(".mui-scroll").scroll({
+			bounce: true,//滚动条是否有弹力默认是true
+			indicators: true, //是否显示滚动条,默认是true
+			scrollY: true, //是否竖向滚动
+		});
+		mui('mui-scroll').scroll( );
+		
+		
+		
+		
+		
+	</script>
+	<script>
+		
+		var wxIds = $wxId;
+		var addressDefaultId = "";
+		var doorTime = "";
+			
+		function fun(){
+			
+		}	
+		function tddd(aa){
+			//alert(aa);
+			//setTimeout("location.reload()",5000);
+			setTimeout(function(){
+				mui('#delete').popover('hide');  
+				var aalist =  aa.split(",");
+				//alert(aalist.length);
+				$("#addressDefault").html(aalist[1]+aalist[2]+aalist[3]+aalist[4]);
+				addressDefaultId = aalist[0];
+				//$("#delete").css("display","none");
+				
+			},500);
+			
+			
+		}
+		
+		function del(ids) {
+			var btnArray = ['否', '是'];
+			mui.confirm('是否删除该地址？', '', btnArray, function(e) {
+				if (e.index == 1) {
+					
+					
+					mui.get($server_path+"/homeApp/address/delAddress",{id:ids},function(data){
+						
+							mui.toast(data.message);
+							mui.get($server_path+"/homeApp/getAddress",{wxId:wxIds},function(data){
+								
+								
+								$("#addressDefault").html(data.data[0].city+data.data[0].country+data.data[0].town+data.data[0].detail);
+								addressDefaultId = data.data[0].id;
+								
+								var address="";
+								for(var i = 0; i<data.data.length;i++){
+									var id = data.data[i].id+","+data.data[i].city+","+data.data[i].country+","+data.data[i].town+","+data.data[i].detail;
+									
+									address +='	<div class="mui-input-row mui-radio mui-left" ><input class="radio1"   onclick="tddd(\''+id+'\')"  name="radio1" value="'+data.data[i].id+'" type="radio"><div class="radio-add" ><p>'+data.data[i].contactName+','+data.data[i].contactMobile+'</p>'+
+									'<p class="addressSize">收货地址：' + data.data[i].city+data.data[i].country+data.data[i].town+data.data[i].detail +'</p></div><h4 style="line-height:60px;width:26%"><a href="update.html?id='+data.data[i].id+'" style="margin-right: 10px;"><span class="mui-icon mui-icon-compose"></span></a><a style="margin-right: 10px;"><span class="mui-icon mui-icon-trash" onclick="del(\''+data.data[i].id+'\')"  style="color:red"></span></a></h4> </div>';
+								};
+								
+								//获取默认地址
+								$("#addressdetail").html(address);
+								
+								},'json'
+							);
+							
+// 							setTimeout(function(){
+// 								mui('#delete').popover('hide');  
+// 								
+// 							},500);
+							
+							
+							
+						
+					},'json'
+					);
+					
+				} else {
+					//alert("0");
+				}
+			})
+		};
+		
+		
+		
+		
+			(function($) {
+				$.init();
+				//var result = $('#result')[0];
+				var result = $('#demo1')[0];
+				
+				var btns = $('.btn');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								result.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								
+								result.innerText =  rs.text;
+								doorTime = rs.text +":00";
+								
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+				});
+			})(mui);
+			
+			$(function(){
+				
+				
+				//get请求  获取商品列表
+				mui.get($server_path+"/homeApp/goodsList",{},function(data){
+	
+					var str = "";
+					for(var i = 0;i<data.data.length;i++){
+						str+='<li class="mui-table-view-cell">'+data.data[i].name+'<span class="mui-pull-right">'+data.data[i].price+'/斤</span></li>';
+					}
+					
+					//获取价格区间
+					$("#goodsAbout").html(data.data[0].price+"~"+data.data[data.data.length-1].price);  
+					
+					//获取商品列表
+					$("#goodsList").html(str);
+					
+					
+					},'json'
+				);
+				
+				//get请求  获取用户地址
+				
+				
+				
+				mui.get($server_path+"/homeApp/getAddress",{wxId:wxIds},function(data){
+	
+					
+					$("#addressDefault").html(data.data[0].city+data.data[0].country+data.data[0].town+data.data[0].detail);
+					addressDefaultId = data.data[0].id;
+					
+					var address="";
+					for(var i = 0; i<data.data.length;i++){
+						var id = data.data[i].id+","+data.data[i].city+","+data.data[i].country+","+data.data[i].town+","+data.data[i].detail;
+						
+						address +='	<div class="mui-input-row mui-radio mui-left" ><input class="radio1"   onclick="tddd(\''+id+'\')"  name="radio1" value="'+data.data[i].id+'" type="radio"><div class="radio-add" ><p>'+data.data[i].contactName+','+data.data[i].contactMobile+'</p>'+
+						'<p class="addressSize">收货地址：' + data.data[i].city+data.data[i].country+data.data[i].town+data.data[i].detail +'</p></div><h4 style="line-height:60px;width:26%"><a href="update.html?id='+data.data[i].id+'" style="margin-right: 10px;"><span class="mui-icon mui-icon-compose"></span></a><a style="margin-right: 10px;"><span class="mui-icon mui-icon-trash" onclick="del(\''+data.data[i].id+'\')"  style="color:red"></span></a></h4> </div>';
+					};
+					
+					//获取默认地址
+					$("#addressdetail").html(address);
+					
+					},'json'
+				);
+				
+				
+				
+				var radioText = "";
+				$('.radio-o').click(function(){
+					$('.radio-o').css("background",'');
+					$('.radio-o').css("color",'#000000');
+					$(this).css("background",'#59BA2D');
+					$(this).css("color",'#fff');
+					radioText = $(this).attr("text");
+					
+					
+				});
+				
+				
+				Date.prototype.format = function(format)
+				{
+				 var o = {
+				 "M+" : this.getMonth()+1, //month
+				 "d+" : this.getDate(),    //day
+				 "h+" : this.getHours(),   //hour
+				 "m+" : this.getMinutes(), //minute
+				 "s+" : this.getSeconds(), //second
+				 "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+				 "S" : this.getMilliseconds() //millisecond
+				 }
+				 if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+				 (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+				 for(var k in o)if(new RegExp("("+ k +")").test(format))
+				 format = format.replace(RegExp.$1,
+				 RegExp.$1.length==1 ? o[k] :
+				 ("00"+ o[k]).substr((""+ o[k]).length));
+				 return format;
+				}
+				
+				
+				
+				
+				
+				doorTime = new Date();
+				doorTime.setMinutes(doorTime.getMinutes()+30);
+				doorTime =  new Date(doorTime).format("yyyy-MM-dd hh:mm:ss");
+				$(".doors1").click(function(){
+						doorTime = new Date();
+						doorTime.setMinutes(doorTime.getMinutes()+30);
+						doorTime =  new Date(doorTime).format("yyyy-MM-dd hh:mm:ss");
+				});
+				
+				
+				
+				
+				
+				$("#addAddress").click(function(){
+					window.location.href="update.html";
+					
+					
+				})
+				
+				$("#addOrder").click(function(){
+					
+					
+					var person = {
+						wxId:wxIds,
+						addressId:addressDefaultId,  //选中地址的id
+						type:"10",
+						weight:radioText,
+						doorTimes:doorTime
+					}
+					
+					mui.ajax($server_path+"/homeApp/order/add",{
+						data:person,
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},	              
+						success:function(data){
+							alert(data.message);
+							//window.location.href="first.html";
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});		
+					
+					
+				})
+// 				
+// 				var ele = document.getElementsByName("radio1");
+// 				for (var i = 0; i < ele.length; i++) {
+// 					mui.alert(ele[i].value + ": " + ele[i].checked)
+// 				}
+
+
+
+				
+				
+				
+			
+									
+										
+									
+									
+				
+				
+			});
+			
+			
+		
+			
+			
+			
+			
+			
+		</script>
+</html>

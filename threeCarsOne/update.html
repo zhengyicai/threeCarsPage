@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<link href="./css/mui.picker.css" rel="stylesheet" />
+		<link href="./css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			h5 {
+				margin: 5px 7px;
+			}
+			.savebuttom{
+				display: flex;
+				justify-content: space-between;
+				text-align: center;
+			}
+				.savebuttom a{
+				width: 50%;
+				height: 50px;
+				background: #F78A5C;
+				color: #fff;
+				line-height: 50px;
+				position: relative;
+				bottom: 0;
+			}
+			.savebuttom :last-child{
+				background: #59BA2D;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">编辑地址</h1>
+		</header>
+		<div class="mui-content">
+			<!-- <div class="mui-content-padded">
+				<button id='showCityPicker3' class="mui-btn mui-btn-block" type='button' ><span id='cityResult3'> 三级联动示例 ...</span></button>
+				
+			</div> -->
+			
+			<div class="mui-content-padded" style="margin: 5px;">
+				<form class="mui-input-group">
+					<div class="mui-input-row">
+						<label style="width: 35%">选择区域：</label>
+						<button id='showCityPicker3' class="mui-btn mui-btn-block" type='button' style="width: 65%;border: 0px;" ><span id='cityResult3'>请选择区域</span></button>
+					</div>
+					<div class="mui-input-row">
+						<label>详细地址：</label>
+						<input type="text" class="mui-input-clear" placeholder="" id="addressDetail" >
+					</div>
+					<div class="mui-input-row">
+						<label>联系人：</label>
+						<input type="text" class="mui-input-clear" placeholder="" id="contactName">
+					</div>
+					<div class="mui-input-row">
+						<label>联系电话：</label>
+						<input type="text" class="mui-input-clear" placeholder="" id="contactMobile">
+					</div>
+
+				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
+						<a>取消</a>
+						<a id="save">保存</a>
+						
+				</div>
+
+					<!--<div class="mui-button-row">
+						<button type="button" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
+						<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+					</div>-->
+				</form>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.picker.js"></script>
+		<script src="./js/mui.poppicker.js"></script>
+		
+		<!-- <script src="./js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/city.data-3.js" type="text/javascript" charset="utf-8"></script> -->
+		<script src="./js/path.js"></script>
+		<script src="./js/jquery-v1.10.3.min.js"></script>
+		<script>
+			var wxIds = $wxId; 
+			var ids = "";
+			var persons = "";
+			
+			var city = "";
+			var country = "";
+			var town = "";
+			
+			
+			function getUrlParms(name){
+			   var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+			   var r = window.location.search.substr(1).match(reg);
+			   if(r!=null)
+			   return unescape(r[2]);
+			   return null;
+			}
+			
+			
+			
+			function validate(){
+				
+				if(city=="" || country=="" || town=="" ){
+					mui.toast('区域不能为空');
+					return false;
+				}
+				if($("#addressDetail").val()==""){
+					mui.toast('详情地址不能为空');
+					return false;
+				}
+				
+				if($("#contactName").val()==""){
+					mui.toast('联系人不能为空');
+					return false;
+				}
+				if($("#contactMobile").val()==""){
+					mui.toast('联系电话不能为空');
+					return false;
+				}
+				return true;
+				
+				
+				
+				
+			}
+			
+			
+			$(function(){
+				
+				ids = getUrlParms("id");
+				if(ids !=null){
+					
+					mui.get($server_path+"/homeApp/address/getAddressId",{id:ids},function(data){
+	
+							persons  = data.data;						
+							$("#addressDetail").val(persons.detail);
+							$("#contactName").val(persons.contactName);
+							$("#contactMobile").val(persons.contactMobile);
+							
+							var cityResult3 = document.getElementById("cityResult3");
+							cityResult3.innerText =  data.data.city + " " +  data.data.country + " " +data.data.town;
+							city = data.data.city;
+							country = data.data.country;
+							town = data.data.town;
+							
+						},'json'
+					);
+					
+				}else{
+					
+					
+					$("#addressDetail").val("");
+					$("#contactName").val("");
+					$("#contactMobile").val("");
+					
+					persons = {
+							userId:"",
+						    wxId:"1212odHLq5jSebhOFKllB6xelPSo6Szk",
+						    contactName:"",
+						    contactMobile:"",
+						    city:"广东",
+						    country:"珠海",
+						    town:"香洲区",
+						    detail:"",
+						    type:"20"
+					}
+					
+					
+				}
+			});
+			
+			
+						
+			(function($, doc) {
+					$.init();
+					$.ready(function() {
+					/**
+					 * 获取对象属性的值
+					 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+					 * @param {Object} obj 对象
+					 * @param {String} param 属性名
+					 */
+					
+					
+					
+					
+					
+					
+					
+					mui.get($server_path+"/homeApp/addressList",function(data){
+						var _getParam = function(obj, param) {
+							return obj[param] || '';
+						};
+										
+						//					//级联示例
+						var cityPicker3 = new $.PopPicker({
+							layer: 3
+						});
+						var  cityData3  = data.data;
+						
+						cityPicker3.setData(cityData3);
+						var showCityPickerButton = doc.getElementById('showCityPicker3');
+						var cityResult3 = document.getElementById("cityResult3");
+						showCityPickerButton.addEventListener('tap', function(event) {
+							cityPicker3.show(function(items) {
+								cityResult3.innerText =  _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+								//返回 false 可以阻止选择框的关闭
+								city = _getParam(items[0], 'text');
+								country= _getParam(items[1], 'text');
+								town= _getParam(items[2], 'text');
+								//return false;
+							});
+						}, false);
+						
+							
+						},'json'
+					);
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				});
+			})(mui, document);
+			
+			
+				
+				$("#save").click(function(){
+					
+					if(!validate()){
+						return;
+					}
+					
+					
+					if(ids==null){
+						
+						var person = {
+							userId:"",
+						    wxId:"1212odHLq5jSebhOFKllB6xelPSo6Szk",
+						    contactName:$("#contactName").val(),
+						    contactMobile:$("#contactMobile").val(),
+						    city:"广东",
+						    country:"珠海",
+						    town:"香洲区",
+						    detail:$("#addressDetail").val(),
+						    type:"20"
+						};
+						
+							
+						mui.ajax($server_path+"/homeApp/address/add",{
+							data:person,
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								alert(data.message);
+								window.location.href="first.html";
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});		
+					}else{
+						
+						var person = persons;
+						person.contactMobile = $("#contactMobile").val();
+						person.contactName = $("#contactName").val();
+						person.detail = $("#addressDetail").val();
+						person.city = city;
+						person.country = country;
+						person.town = town;
+						
+							
+						mui.ajax($server_path+"/homeApp/address/update",{
+							data:person,
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								alert(data.message);
+								window.location.href="first.html";
+								//window.location.href="first.html";
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+						
+					}
+					
+					
+					
+				
+				
+					
+				})
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			
+		</script>
+	</body>
+

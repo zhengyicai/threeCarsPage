@@ -1,0 +1,171 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css"/>-->
+		<style>
+		.mui-grid-view.mui-grid-9 {
+			background-color: white;
+		}
+		.mui-grid-view.mui-grid-9 .mui-media .mui-icon {
+				 font-size: 1.5em; 
+				position: relative;
+			}
+		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+			color: white;
+		}	
+		
+		.mui-grid-view.mui-grid-9 .mui-table-view-cell{
+			border-right: 0px solid #eee; 
+			border-bottom: 0px solid #eee;
+		}
+		.mui-grid-view.mui-grid-9{
+			border-top:0px;
+		}
+		
+		.titleMe{
+			padding: 10px; 
+			color: #666666; 
+			font-size: 15px; 
+			font-weight: bold;
+		}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">管理后台</h1>
+		</header>
+		<div class="mui-content" >
+			<div style="background-image: url(img/bg1.jpg);width: 100%; height: 220px;">
+		        
+			</div>	
+			<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: -90px; background-color:rgba(255,255,255,0.2); color: white; font-weight: bold;">
+			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a href="orderList.html">
+			            
+						<span class="mui-icon mui-icon-home" style="color: white;"></span>
+			            <div class="mui-media-body">订单列表</div></a>
+						</li>
+						
+			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+			            <span class="mui-icon mui-icon-email" style="color: white;"><span class="mui-badge">5</span></span>
+			            <div class="mui-media-body">消息</div></a></li>
+			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="sumList.html">
+			            <span class="mui-icon mui-icon-compose" style="color: white;"></span>
+			            <div class="mui-media-body">台账统计</div></a></li>
+			   
+			</ul> 
+			<div>
+				<div  class="mui-content titleMe" >今日台账</div>
+				<ul class="mui-table-view mui-grid-view mui-grid-9" style=" background-color:rgba(255,255,255,1); color: white; font-weight: bold;">
+				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a href="#">
+				            <span>5</span>
+				            <div class="mui-media-body" style="color: #333;">今日订单数</div></a></li>
+				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+				            <span>3200</span>
+				            <div class="mui-media-body" style="color: #333;">今日收入</div></a></li>
+				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+				             <span>2000</span>
+				            <div class="mui-media-body" style="color: #333;">今日支出</div></a></li>
+				   
+				</ul> 
+				
+				<div  class="mui-content titleMe" >今日订单</div>
+				<div>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell ">
+							 <div style="font-size: 13px;">
+								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+								<div>  郑先生（13536524756）</div>
+							 </div>	
+							<button type="button" class="mui-btn mui-btn-warning detaillist" >
+								详情
+							</button>
+						</li>
+						<li class="mui-table-view-cell ">
+							 <div style="font-size: 13px;">
+								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+								<div>  郑先生（13536524756）</div>
+							 </div>	
+							<button type="button" class="mui-btn mui-btn-success savelist" >
+								结算
+							</button>
+						</li>
+						<li class="mui-table-view-cell ">
+							 <div style="font-size: 13px;">
+								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+								<div>  郑先生（13536524756）</div>
+							 </div>	
+							<button type="button" class="mui-btn mui-btn-warning detaillist" >
+								详情
+							</button>
+						</li>
+						<li class="mui-table-view-cell detaillist">
+							 <div style="font-size: 13px;">
+								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+								<div>  郑先生（13536524756）</div>
+							 </div>	
+							<button type="button" class="mui-btn mui-btn-warning detaillist" >
+								详情
+							</button>
+						</li>
+						<li class="mui-table-view-cell detaillist">
+							 <div style="font-size: 13px;">
+								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+								<div>  郑先生（13536524756）</div>
+							 </div>	
+							<button type="button" class="mui-btn mui-btn-warning detaillist" >
+								详情
+							</button>
+						</li>
+						<li class="mui-table-view-cell">
+							 <div style="font-size: 13px;">
+								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+								<div>  郑先生（13536524756）</div>
+							 </div>	
+							<button type="button" class="mui-btn mui-btn-warning detaillist" >
+								详情
+							</button>
+						</li>
+					</ul>
+				</div>		
+				
+			</div>
+			
+		</div>
+	</body>
+	<script src="./js/mui.min.js"></script>
+	<script src="js/jquery-v1.10.3.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		
+		$(".detaillist").click(function(){
+			window.location.href="orderDetail.html";
+			
+		});
+		
+		$(".savelist").click(function(){
+			window.location.href="saveDetail.html";
+			
+		});
+		
+		
+		
+		
+	</script>
+	
+	
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<link href="./css/mui.picker.css" rel="stylesheet" />
+		<link href="./css/mui.poppicker.css" rel="stylesheet" />
+		<style>
+			h5 {
+				margin: 5px 7px;
+			}
+			.savebuttom{
+				display: flex;
+				justify-content: space-between;
+				text-align: center;
+			}
+				.savebuttom a{
+				width: 100%;
+				height: 50px;
+				background: #F78A5C;
+				color: #fff;
+				line-height: 50px;
+				position: relative;
+				bottom: 0;
+			}
+			.savebuttom :last-child{
+				background: #59BA2D;
+			}
+			
+			.mui-input-row label{
+				width: 50%;
+			}
+			
+			.mui-input-row label~input{
+				width: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">结算</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<!-- <button id='showCityPicker3' class="mui-btn mui-btn-block" type='button' ><span id='cityResult3'> 三级联动示例 ...</span></button> -->
+				<!--<div id='cityResult3' class="ui-alert"></div>-->
+			</div>
+			<div class="mui-content-padded" style="margin: 5px;">
+				<form class="mui-input-group">
+					
+					<div class="mui-input-row">
+						<label>黄纸：（0.35/斤）</label>
+						<!-- <input type="text" placeholder="" id="contactMobile1"> -->
+						<input type="text" >
+					</div>
+					<div class="mui-input-row">
+						<label>花纸：（0.45/斤）</label>
+						<input type="text" class="mui-input-clear" placeholder="" id="contactMobile2">
+					</div>
+					<div class="mui-input-row">
+						<label>杂纸：（0.55/斤）</label>
+						<input type="text" class="mui-input-clear" placeholder="" id="addressDetail" >
+					</div>
+					<div class="mui-input-row">
+						<label>合计(元)</label>
+						<label style="color: red;font-size: 18px;">100</label>
+					</div>
+					
+					
+				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
+						
+						<a id="save">提交</a>
+						
+				</div>
+
+					<!--<div class="mui-button-row">
+						<button type="button" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
+						<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
+					</div>-->
+				</form>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.picker.js"></script>
+		<script src="./js/mui.poppicker.js"></script>
+		
+		<script src="./js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/path.js"></script>
+		<script src="./js/jquery-v1.10.3.min.js"></script>
+		<script>
+			var wxIds = $wxId; 
+			var ids = "";
+			var persons = "";
+			
+			
+			
+			
+			
+				
+				
+				
+			
+		</script>
+	</body>
+

@@ -285,6 +285,11 @@
 		var wxIds = $wxId;
 		var addressDefaultId = "";
 		var doorTime = "";
+		
+		localStorage.setItem("wxId",'1212odHLq5jSebhOFKllB6xelPSo6Szk');
+		localStorage.setItem("nickname",'ZhengYC');
+		localStorage.setItem("imageurl",'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqb0wj4Tof5FbrZuGyEsmX0lmayEjlYpibFy6JxuaP11Kjc4XJKic2z6dZBbx5Hsf0Q3H9syw7Da9HA/132');
+		
 			
 		function fun(){
 			
@@ -437,6 +442,10 @@
 				
 				
 				var radioText = "";
+				$('.radio-o:first').css("background",'#59BA2D');
+				$('.radio-o:first').css("color",'#000000');
+				radioText = $('.radio-o:first').attr("text");
+				
 				$('.radio-o').click(function(){
 					$('.radio-o').css("background",'');
 					$('.radio-o').css("color",'#000000');
@@ -473,11 +482,12 @@
 				
 				
 				doorTime = new Date();
-				doorTime.setMinutes(doorTime.getMinutes()+30);
+				doorTime.setHours(doorTime.getHours()+1)
+				//doorTime.setMinutes(doorTime.getMinutes()+30);
 				doorTime =  new Date(doorTime).format("yyyy-MM-dd hh:mm:ss");
 				$(".doors1").click(function(){
 						doorTime = new Date();
-						doorTime.setMinutes(doorTime.getMinutes()+30);
+						doorTime.setHours(doorTime.getHours()+1)
 						doorTime =  new Date(doorTime).format("yyyy-MM-dd hh:mm:ss");
 				});
 				

@@ -51,48 +51,43 @@
 		        
 			</div>	
 			<ul class="mui-table-view mui-grid-view mui-grid-9" style="margin-top: -90px; background-color:rgba(255,255,255,0.2); color: white; font-weight: bold;">
-			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a href="orderList.html">
+			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" ><a href="orderList.html">
 			            
 						<span class="mui-icon mui-icon-home" style="color: white;"></span>
 			            <div class="mui-media-body">订单列表</div></a>
 						</li>
-						
-			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
+				 <!--<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
 			            <span class="mui-icon mui-icon-email" style="color: white;"><span class="mui-badge">5</span></span>
-			            <div class="mui-media-body">消息</div></a></li>
-			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="sumList.html">
+			            <div class="mui-media-body">月台账统计</div></a></li>		-->
+						
+			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="monthsumList.html">
+			            <span class="mui-icon mui-icon-compose" style="color: white;"><!--<span class="mui-badge">5</span>--></span>
+			            <div class="mui-media-body">月台账统计</div></a></li>
+			    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="sumList.html">
 			            <span class="mui-icon mui-icon-compose" style="color: white;"></span>
-			            <div class="mui-media-body">台账统计</div></a></li>
+			            <div class="mui-media-body">天台账统计</div></a></li>
 			   
 			</ul> 
 			<div>
 				<div  class="mui-content titleMe" >今日台账</div>
 				<ul class="mui-table-view mui-grid-view mui-grid-9" style=" background-color:rgba(255,255,255,1); color: white; font-weight: bold;">
-				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" ><a href="#">
-				            <span>5</span>
+				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" ><a href="#">
+				            <span id="todayCount">0</span>
 				            <div class="mui-media-body" style="color: #333;">今日订单数</div></a></li>
-				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
-				            <span>3200</span>
+				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
+				            <span id="todaySellPrice">0</span>
 				            <div class="mui-media-body" style="color: #333;">今日收入</div></a></li>
-				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3"><a href="#">
-				             <span>2000</span>
+				    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4"><a href="#">
+				             <span id="todayBuyPrice">0</span>
 				            <div class="mui-media-body" style="color: #333;">今日支出</div></a></li>
 				   
 				</ul> 
 				
 				<div  class="mui-content titleMe" >今日订单</div>
 				<div>
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell ">
-							 <div style="font-size: 13px;">
-								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
-								<div>  郑先生（13536524756）</div>
-							 </div>	
-							<button type="button" class="mui-btn mui-btn-warning detaillist" >
-								详情
-							</button>
-						</li>
-						<li class="mui-table-view-cell ">
+					<ul class="mui-table-view" id="orderlist">
+						
+						<!--<li class="mui-table-view-cell ">
 							 <div style="font-size: 13px;">
 								<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
 								<div>  郑先生（13536524756）</div>
@@ -136,7 +131,7 @@
 							<button type="button" class="mui-btn mui-btn-warning detaillist" >
 								详情
 							</button>
-						</li>
+						</li>-->
 					</ul>
 				</div>		
 				
@@ -145,22 +140,83 @@
 		</div>
 	</body>
 	<script src="./js/mui.min.js"></script>
+	<script src="./js/path.js"></script>
 	<script src="js/jquery-v1.10.3.min.js"></script>
 	<script>
+		
+		
+		var wxIds = $wxId;
 		mui.init({
 			swipeBack:true //启用右滑关闭功能
 		});
 		
 		
-		$(".detaillist").click(function(){
-			window.location.href="orderDetail.html";
-			
-		});
+		//详情
+		function detail(ids){
+			window.location.href="orderDetail.html?ids="+ids;
+		}
 		
-		$(".savelist").click(function(){
-			window.location.href="saveDetail.html";
+		//结算
+		function saveDetail(ids){
+			window.location.href="saveDetail.html?ids="+ids;
+		}
+		
+		
+		
+		
+		
+//		$(".detaillist").click(function(){
+//			
+//			
+//		});
+//		
+//		$(".savelist").click(function(){
+//			window.location.href="saveDetail.html";
+//			
+//		});
+		
+		
+		//get请求  获取今日数据列表
+		mui.get($server_path+"/homeApp/orderList/toDayFindAll",{wxId:wxIds},function(data){
+
+		
+			$("#todayBuyPrice").html(data.data.buyPrice == null?0:data.data.buyPrice);
+			$("#todaySellPrice").html(data.data.sellPrice == null?0:data.data.sellPrice);
+			$("#todayCount").html(data.data.count1);
 			
-		});
+		
+			
+			
+			},'json'
+		);
+		
+		//get请求  获取今日订单列表
+		mui.get($server_path+"/homeApp/getOrderList",{wxId:wxIds,pageSize:1000,today:"1"},function(data){
+
+			var str = "";
+			for(var i = 0;i<data.data.length;i++){
+				var buttons = '';
+				if(data.data[i].type=='10'){
+					buttons = '<button type="button" class="mui-btn mui-btn-warning" onclick="detail(\''+data.data[i].id+'\')" >详情</button>';	
+				}else if(data.data[i].type=='20'){
+					buttons = '<button type="button" class="mui-btn mui-btn-success savelist" onclick="saveDetail(\''+data.data[i].id+'\')" >结算</button>';
+				}else if(data.data[i].type=='30'){
+					buttons = '<button type="button" disabled="disabled" style="color:red;border:0px" class="mui-btn savelist" onclick="saveDetail(\''+data.data[i].id+'\')" >失败</button>';
+				}else if(data.data[i].type=='40'){
+					buttons = '<button type="button" disabled="disabled" style="color:green;border:0px" class="mui-btn savelist" onclick="saveDetail(\''+data.data[i].id+'\')" >完成</button>';
+				}
+				
+				
+				str +='<li class="mui-table-view-cell "><div style="font-size: 13px;"><div> <span style="width: 50px;" > 预约时间 '+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span><span style="font-size: 14px;margin-left: 20px;" >'+(data.data[i].weight=="20"?"20-50斤":data.data[i].weight=="51"?"51-100斤":data.data[i].weight=="101"?"101-500斤":data.data[i].weight=="500"?"500斤以上":"")+' </span>   </div><div>  '+data.data[i].contactName+'（'+data.data[i].contactMobile+'）</div></div>'+buttons+'</li>';	
+			}
+			
+			
+				
+			$("#orderlist").html(str);
+			
+			
+			},'json'
+		);
 		
 		
 		

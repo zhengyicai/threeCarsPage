@@ -52,12 +52,13 @@
 				<!-- <button id='showCityPicker3' class="mui-btn mui-btn-block" type='button' ><span id='cityResult3'> 三级联动示例 ...</span></button> -->
 				<!--<div id='cityResult3' class="ui-alert"></div>-->
 			</div>
+			
 			<div class="mui-content-padded" style="margin: 5px;">
-				<form class="mui-input-group">
+				<form class="mui-input-group" id="detailList">
 					
-					<div class="mui-input-row">
+					<!--<div class="mui-input-row">
 						<label>黄纸：（0.35/斤）</label>
-						<!-- <input type="text" placeholder="" id="contactMobile1"> -->
+						
 						<input type="text" >
 					</div>
 					<div class="mui-input-row">
@@ -67,11 +68,13 @@
 					<div class="mui-input-row">
 						<label>杂纸：（0.55/斤）</label>
 						<input type="text" class="mui-input-clear" placeholder="" id="addressDetail" >
-					</div>
-					<div class="mui-input-row">
+					</div>-->
+				</form>	
+					<div class="mui-input-row" style="background-color: white;">
 						<label>合计(元)</label>
-						<label style="color: red;font-size: 18px;">100</label>
+						<label style="color: red;font-size: 18px;" id="sum">100</label>
 					</div>
+					
 					
 					
 				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
@@ -84,7 +87,7 @@
 						<button type="button" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
 						<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
 					</div>-->
-				</form>
+				
 			</div>
 		</div>
 		<script src="./js/mui.min.js"></script>
@@ -99,7 +102,82 @@
 			var wxIds = $wxId; 
 			var ids = "";
 			var persons = "";
+			var count = 0;
+			ids = getUrlParms("ids");
 			
+			function func(){
+				//alert($("#price0").html()*$("#weight0").val());
+				
+				var count1= 0;
+				for(var i=0;i<count;i++){
+					count1+=$("#price"+i).html()*$("#weight"+i).val();
+					
+				}
+				
+				$("#sum").html(count1);
+			}
+			
+			//get请求  获取商品列表
+			mui.get($server_path+"/homeApp/goodsList",{},function(data){
+
+				var str = "";
+				count = data.data.length;
+				for(var i = 0;i<data.data.length;i++){
+					//str+='<li class="mui-table-view-cell">'+data.data[i].name+'<span class="mui-pull-right">'+data.data[i].price+'/斤</span></li>';
+					
+					str+='<div class="mui-input-row"><label>'+data.data[i].name+'：（<span id="price'+i+'">'+data.data[i].price+'</span>/斤）</label><input onFocus="func()" text="'+data.data[i].id+'"  text1="'+data.data[i].name+'" oninput="func()" type="number" id="weight'+i+'" placeholder="请输入重量" ></div>'
+					
+				}
+				
+				$("#detailList").html(str);
+				
+				
+				
+				},'json'
+			);
+			
+			
+			$("#save").click(function(){
+				var per = [];
+				for(var i = 0;i<count;i++){
+					var person ={
+						goodsId:$("#weight"+i).attr("text"),
+						goodsName:$("#weight"+i).attr("text1"),
+						buyPrice:$("#price"+i).html(),
+						buyWeight:$("#weight"+i).val(),
+						orderId:ids
+					}
+					per.push(person);
+				}
+				var person={
+					detailLists:per
+				}
+				
+				mui.ajax($server_path+"/homeApp/orderDatail/add",{
+					data:person,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						if(data.code ="0000"){
+							mui.toast("提交成功");
+							setTimeout(function(){
+							window.location.href="manage.html";
+						},500);	
+						}
+						
+						
+						
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+				 
+				
+			})
 			
 			
 			

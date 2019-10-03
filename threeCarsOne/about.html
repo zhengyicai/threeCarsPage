@@ -18,36 +18,67 @@
 				<h1 class="mui-center mui-title">关于MUI</h1>
 			</div>
 			<!--页面主内容区开始-->
-			<div class="mui-page-content">
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<!--<li class="mui-table-view-cell mui-plus-visible">
-								<a id="rate" class="mui-navigate-right">评分鼓励</a>
-							</li>
-							<li class="mui-table-view-cell mui-plus-visible">
-								<a id="welcome" class="mui-navigate-right">欢迎页</a>
-							</li>
-							<li class="mui-table-view-cell mui-plus-visible">
-								<a id="share" class="mui-navigate-right">分享推荐</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a id="tel" class="mui-navigate-right">客服电话</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a id="feedback-btn" href="#feedback" class="mui-navigate-right">问题反馈</a>
-							</li>
-							<li id="check_update" class="mui-table-view-cell mui-plus-visible">
-								<a id="update" class="mui-navigate-right">检查更新</a>
-							</li>-->
-						</ul>
-					</div>
-				</div>
+			
+			<div class="mui-content">
+				<input type="number"  id="mobile" placeholder="请输入您的联系方式" style="margin-top: 30px;">
+				<textarea id="textarea" rows="5" placeholder="请描述您的问题或者建议"></textarea>
+				
+				<button class="mui-badge-success" style="width: 100%; border: 0; height: 40px;" id="save">提交</button>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
+		<script src="js/path.js"></script>
+		<script src="js/jquery-v1.10.3.min.js"></script>
 		<script type="text/javascript">
+			
 			mui.init()
+			
+			var wxIds = localStorage.getItem("wxId");
+			$(function(){
+				$("#save").click(function(){
+					
+					if($("#mobile").val().trim() =="" || $("#mobile").val()==null){
+						mui.toast("联系方式不能为空");
+						return;
+					}
+					
+					if($("#textarea").val().trim() =="" || $("#textarea").val()==null){
+						mui.toast("内容不能为空");
+						return;
+					}
+					
+					var person = {
+						wxId:wxIds,
+						detail:$("#textarea").val(),
+						mobile:$("#textarea").val()
+					}
+					
+					mui.ajax($server_path+"/homeApp/suggest/add",{
+						data:person,
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},	              
+						success:function(data){
+							mui.toast(data.message);
+							setTimeout(function(){
+								window.history.go(-1);
+							},500);		
+							//window.location.href="first.html";
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});		
+					
+					
+				})
+			})
+			
+			
+			
+			
 		</script>
 	</body>
 

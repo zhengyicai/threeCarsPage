@@ -72,11 +72,11 @@
 						<label>联系电话：</label>
 						<input type="text" class="mui-input-clear" placeholder="" id="contactMobile">
 					</div>	
-				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
+				<!--<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
 						<a>拒绝</a>
 						<a id="save">接单</a>
 						
-				</div>
+				</div>-->
 
 					<!--<div class="mui-button-row">
 						<button type="button" class="mui-btn mui-btn-primary" onclick="return false;">确认</button>&nbsp;&nbsp;
@@ -100,36 +100,36 @@
 			
 			$(".mui-input-clear").attr("disabled","disabled");
 			
-			$("#save").click(function(){
-				var person ={
-					id:ids,
-					type:"20",
-					carId:wxIds
-				}
-				
-				mui.ajax($server_path+"/homeApp/order/updateState",{
-					data:person,
-					dataType:'json',//服务器返回json格式数据
-					type:'post',//HTTP请求类型
-					timeout:10000,//超时时间设置为10秒；
-					headers:{'Content-Type':'application/json'},	              
-					success:function(data){
-						if(data.code ="0000"){
-							mui.toast("接单成功");
-							setTimeout(function(){
-							window.location.href="manage.html";
-						},500);	
-						}
-						
-						
-						
-					},
-					error:function(xhr,type,errorThrown){
-						//异常处理；
-						console.log(type);
-					}
-				});
-			})
+//			$("#save").click(function(){
+//				var person ={
+//					id:ids,
+//					type:"20",
+//					carId:wxIds
+//				}
+//				
+//				mui.ajax($server_path+"/homeApp/order/updateState",{
+//					data:person,
+//					dataType:'json',//服务器返回json格式数据
+//					type:'post',//HTTP请求类型
+//					timeout:10000,//超时时间设置为10秒；
+//					headers:{'Content-Type':'application/json'},	              
+//					success:function(data){
+//						if(data.code ="0000"){
+//							mui.toast("接单成功");
+//							setTimeout(function(){
+//							window.location.href="manage.html";
+//						},500);	
+//						}
+//						
+//						
+//						
+//					},
+//					error:function(xhr,type,errorThrown){
+//						//异常处理；
+//						console.log(type);
+//					}
+//				});
+//			})
 			
 			
 			$(function(){

@@ -20,7 +20,7 @@
 				text-align: center;
 			}
 				.savebuttom a{
-				width: 50%;
+				width: 100%;
 				height: 50px;
 				background: #F78A5C;
 				color: #fff;
@@ -73,8 +73,8 @@
 						<input type="text" class="mui-input-clear" placeholder="" id="contactMobile">
 					</div>	
 				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
-						<a>拒绝</a>
-						<a id="save">接单</a>
+						
+						<a id="save" style="background-color: #f0ad4e;">取消订单</a>
 						
 				</div>
 
@@ -103,7 +103,7 @@
 			$("#save").click(function(){
 				var person ={
 					id:ids,
-					type:"20",
+					type:"30",
 					carId:wxIds
 				}
 				
@@ -115,9 +115,10 @@
 					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
 						if(data.code ="0000"){
-							mui.toast("接单成功");
+							mui.toast("取消成功");
 							setTimeout(function(){
-							window.location.href="manage.html";
+								mui.back();
+							//window.location.href="manage.html";
 						},500);	
 						}
 						

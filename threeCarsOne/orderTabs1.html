@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单列表</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					
+					<div class="mui-scroll mui-row" style="width: 100%;">
+						<a class="mui-control-item mui-col-sm-4 mui-col-xs-4 items"  style="width: 33%;" id="item1" href="#item1mobile">
+							派单中
+						</a>
+						<a class="mui-control-item mui-col-sm-4 mui-col-xs-4 items"  style="width: 33%;" id="item2"  href="#item2mobile">
+							服务中
+						</a>
+						<a class="mui-control-item mui-col-sm-4 mui-col-xs-4 items" style="width: 33%;" onclick="ddd()" id="item3"  href="#item3mobile">
+							已完成
+						</a>
+						
+					</div>
+				</div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="list0">
+									
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="list1">
+									<!--<li class="mui-table-view-cell">
+										第2个选项卡子项-1
+									</li>-->
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="list2">
+									<!--<li class="mui-table-view-cell">
+										第3个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第3个选项卡子项-2
+									</li>-->
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.pullToRefresh.js"></script>
+		<!--<script src="./js/mui.pullToRefresh.material.js"></script>-->
+		<script src="./js/path.js"></script>
+		<script src="./js/jquery-v1.10.3.min.js"></script>
+		<script>
+			
+			
+			
+			
+			mui.init();
+			(function($) {
+				//阻尼系数
+				var deceleration = mui.os.ios?0.003:0.0009;
+				$('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration:deceleration
+				});
+				var wxIds = $wxId; 
+				var count2 = 0;
+				var count21 = 0;
+				var count22 = 0;
+				
+				var sumCount = 1;
+				var sumCount1 = 1;
+				var sumCount2 = 1;
+				
+				
+				
+				
+				
+				var cho = 0;
+				$.ready(function() {
+					//循环初始化所有下拉刷新，上拉加载。
+					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+						$(pullRefreshEl).pullToRefresh({
+//							down: {
+//								callback: function() {
+//									var self = this;
+//									setTimeout(function() {
+//										var ul = self.element.querySelector('.mui-table-view');
+//										ul.insertBefore(createFragment(ul, index, 10, true), ul.firstChild);
+//										self.endPullDownToRefresh();
+//									}, 1000);
+//								}
+//							},
+							up: {
+								auto:true,
+								callback: function() {
+									var self = this;
+									setTimeout(function() {
+										//var ul = self.element.querySelector('.mui-table-view');
+										
+										if(cho<3){
+											//count2+=1;	
+										}else{
+											
+//											count2 =1;
+//											count21=1;
+//											count22=1;
+										}
+										if(cho ==0){
+											count2 = 0;
+											count21=0;
+											count22=0;
+											
+											mui.toast("加载成功");
+										}
+										cho++;
+//										
+										//alert("fuck");
+										
+										//alert("cho="+cho+"count="+count2);
+										
+										if(index ==0){
+											count2++;
+											self.endPullUpToRefresh((count2 > sumCount));
+											loadData(index,count2);	
+										}else if(index ==1){
+											count21++;
+											self.endPullUpToRefresh((count21 > sumCount1));
+											loadData(index,count21);
+										}else if(index ==2){
+											count22++;
+											self.endPullUpToRefresh((count22 > sumCount2));
+											loadData(index,count22);
+										}
+										
+										//cho = index;
+										
+										//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count2 > sumCount)); //参数为true代表没有更多数据了。
+										
+										//alert(count2 +","+ sumCount);
+										
+									}, 1000);
+								}
+							}
+						});
+					});
+//					var createFragment = function(ul, index, count, reverse) {
+//						var length = ul.querySelectorAll('li').length;
+//						var fragment = document.createDocumentFragment();
+//						var li;
+//						for (var i = 0; i < count; i++) {
+//							li = document.createElement('li');
+//							li.className = 'mui-table-view-cell';
+//							li.innerHTML = '第' + (index + 1) + '个选项卡子项-' + (length + (reverse ? (count - i) : (i + 1)));
+//							fragment.appendChild(li);
+//						}
+//						return fragment;
+//					};
+					
+					var str = "";
+					var str1 = "";
+					var str2 = "";
+					
+					
+					
+				
+					
+					
+					
+					function loadData(ina,cc){
+					//alert(ina);
+					var person = {
+						pageSize:$pageSize,
+						pageNumber:cc,
+						wxId:wxIds,
+						type: ina==0?"10":ina==1?"20":"",
+						isError:ina==2?"40":""
+					};
+//					if(ina ==0){
+//						sumCount = 0;
+//					}else if(ina ==1){
+//						sumCount1 = 0;
+//					}else if(ina ==2){
+//						sumCount2 = 0;
+//					}
+					
+					
+					mui.ajax($server_path+"/homeApp/getOrderList",{
+						data:person,
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						async: false,
+						success:function(data){
+							if(ina ==0){
+								sumCount = data.page.pageCount;
+							}else if(ina ==1){
+								sumCount1 = data.page.pageCount;
+							}else if(ina ==2){
+								sumCount2 = data.page.pageCount;
+							}
+							
+							//sumCount = data.page.pageCount;
+							
+							//alert(data.data.length);
+							//count = data.data.length;
+							for(var i = 0;i<data.data.length;i++){
+								
+								var ss = getStatus1(data.data[i].type);
+								if(ina ==0){
+								str+='<li class="mui-table-view-cell" onclick="detail(\''+data.data[i].id+'\')">';
+								str+='<div style="border-bottom: 1px solid #666666;">';
+								str+='<span style="color: #666666; ">下单时间: '+new Date(data.data[i].createTime).format("yyyy-MM-dd hh:mm:ss")+'</span>'; 
+								str+='<span style="color: #666666; margin-left: 30%;  color: green;">'+ss+'</span></div>';
+								str+='<div><span>订单编号:'+data.data[i].id+'</span> </div>';
+								str+='<div><span>预约时间:'+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span> </div></li>';
+								}else if(ina ==1){
+									str1+='<li class="mui-table-view-cell" onclick="detail(\''+data.data[i].id+'\')">';
+								str1+='<div style="border-bottom: 1px solid #666666;">';
+								str1+='<span style="color: #666666; ">'+new Date(data.data[i].createTime).format("yyyy-MM-dd hh:mm:ss")+'</span>'; 
+								str1+='<span style="color: #666666; margin-left: 40%;  color: green;">'+ss+'</span></div>';
+								str1+='<div><span>订单编号:'+data.data[i].id+'</span> </div>';
+								str1+='<div><span>预约时间:'+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span> </div></li>';
+								
+								}else if(ina ==2){
+									str2+='<li class="mui-table-view-cell" onclick="detail(\''+data.data[i].id+'\')">';
+								str2+='<div style="border-bottom: 1px solid #666666;">';
+								str2+='<span style="color: #666666; ">'+new Date(data.data[i].createTime).format("yyyy-MM-dd hh:mm:ss")+'</span>'; 
+								str2+='<span style="color: #666666; margin-left: 40%;  color: green;">'+ss+'</span></div>';
+								str2+='<div><span>订单编号:'+data.data[i].id+'</span> </div>';
+								str2+='<div><span>预约时间:'+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span> </div></li>';
+								
+								}
+							
+								
+							}
+							//$("#list"+ina).html("tests");
+							//alert(str);
+							if(ina ==0){
+								document.getElementById("list"+ina).innerHTML = str;	
+							}else if(ina==1){
+								document.getElementById("list"+ina).innerHTML = str1;
+							}else if(ina =2){
+								document.getElementById("list"+ina).innerHTML = str2;
+							}
+						}
+					});
+					
+					
+					
+					
+					
+					
+				
+				
+				}
+				
+				
+//				document.getElementById("item1").onclick= function(){
+//					document.getElementById("list0").innerHTML = "";
+//					document.getElementById("list1").innerHTML = "";
+//					document.getElementById("list2").innerHTML = "";
+//					count2 = 1;
+//					sumCount = 1;
+//					str = "";
+//					loadData(0);
+//}
+//				document.getElementById("item2").onclick= function(){
+//					document.getElementById("list0").innerHTML = "";
+//					document.getElementById("list1").innerHTML = "";
+//					document.getElementById("list2").innerHTML = "";
+//					count2 = 1;
+//					sumCount = 1;
+//					str1 = "";
+//					loadData(1);
+//				}
+//				document.getElementById("item3").onclick= function(){
+//					document.getElementById("list0").innerHTML = "";
+//					document.getElementById("list1").innerHTML = "";
+//					document.getElementById("list2").innerHTML = "";
+//					count2 = 1;
+//					sumCount = 1;
+//					str2 = "";
+//					loadData(2);
+//				}
+					
+//				count2=1;
+//				loadData(0);
+//				function  ddd(){
+//					alert("asdf");
+//				}
+//					
+					
+					
+					
+				});
+			})(mui);
+		</script>
+		<script>
+			function detail(ids){
+						
+						window.location.href="userorderDetail.html?ids="+ids;
+					}
+			
+		</script>
+	</body>
+
+</html>

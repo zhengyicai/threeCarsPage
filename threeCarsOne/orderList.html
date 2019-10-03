@@ -26,8 +26,8 @@
 			<div class="mui-scroll">
 				<!--数据列表-->
 				
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell detaillist" >
+				<ul class="mui-table-view mui-table-view-chevron" id="listUl" >
+					<!--<li class="mui-table-view-cell detaillist" >
 						 <div class="" style="font-size: 13px;">
 							<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
 							<div>  郑先生（13536524756）</div>
@@ -35,21 +35,23 @@
 						<button type="button" class="mui-btn mui-btn-warning" >
 							查看详情
 						</button>
-					</li>
+					</li>-->
 				</ul>	
 			</div>
 		</div>
 		<script src="./js/mui.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/jquery-v1.10.3.min.js"></script>
+		<script src="js/path.js"></script>
+		<script src="js/jquery-v1.10.3.min.js"></script>	
 		<script>
 			
 			mui.init({
 				pullRefresh: {
 					container: '#pullrefresh',
-					down: {
-						style:'circle',
-						callback: pulldownRefresh
-					},
+//					down: {
+//						style:'circle',
+//						callback: pulldownRefresh
+//					},
 					up: {
 						auto:true,
 						contentrefresh: '正在加载...',
@@ -57,50 +59,66 @@
 					}
 				}
 			});
-			
+			var wxIds = $wxId; 
 			var count = 0;
+			var sumCount = 2;
 			function pullupRefresh() {
 				setTimeout(function() {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。
-					var table = document.body.querySelector('.mui-table-view');
-					var cells = document.body.querySelectorAll('.mui-table-view-cell');
-					var newCount = cells.length>0?5:20;//首次加载20条，满屏
-					for (var i = cells.length, len = i + newCount; i < len; i++) {
-						var li = document.createElement('li');
-						li.className = 'mui-table-view-cell';
-						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-						table.appendChild(li);
-					}
-				}, 1500);
-			}
-
-			function addData() {
-				var table = document.body.querySelector('.mui-table-view');
-				var cells = document.body.querySelectorAll('.mui-table-view-cell');
-				for(var i = cells.length, len = i + 5; i < len; i++) {
-					var li = document.createElement('li');
-					li.className = 'mui-table-view-cell';
-					li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-					//下拉刷新，新纪录插到最前面；
-					table.insertBefore(li, table.firstChild);
-				}
-			}
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-			function pulldownRefresh() {
-				setTimeout(function() {
-					addData();
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-					mui.toast("为你推荐了5篇文章");
+					
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > sumCount)); //参数为true代表没有更多数据了。
+//					var table = document.body.querySelector('.mui-table-view');
+//					var cells = document.body.querySelectorAll('.mui-table-view-cell');
+//					var newCount = cells.length>0?5:20;//首次加载20条，满屏
+//					for (var i = cells.length, len = i + newCount; i < len; i++) {
+//						var li = document.createElement('li');
+//						li.className = 'mui-table-view-cell';
+//						li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
+//						table.appendChild(li);
+//					}
+					loadData();
 				}, 1500);
 			}
 			
-			$(".detaillist").click(function(){
+			var str = "";
+			
+			function detail(ids){
+				window.location.href="orderDetail1.html?ids="+ids;
+			}
+			function loadData(){
 				
-				window.location.href="orderDetail.html";
-				
-			});
+				var person = {
+					pageSize:$pageSize,
+					pageNumber:count,
+					wxId:wxIds
+				};
+				sumCount = 0;
+				mui.get($server_path+"/homeApp/getOrderList",person,function(data){
+	
+					sumCount = data.page.pageCount;
+					
+					//alert(data.data.length);
+					//count = data.data.length;
+					for(var i = 0;i<data.data.length;i++){
+						
+						var ss = gettype(data.data[i].type)
+						str+='<li class="mui-table-view-cell detaillist" ><div class="" style="font-size: 13px;">';
+						str+='	<div> <span style="width: 50px;" >'+getStatus(data.data[i].type)+'<br/> 预约时间 '+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span><span style="font-size: 14px;margin-left: 18px;" > '+gettype(data.data[i].weight)  +' </span>   </div>';
+						str+='	<div>  '+data.data[i].contactName+'（'+data.data[i].contactMobile+'）</div></div>';
+						str+='<button type="button" class="mui-btn mui-btn-warning"  onclick="detail(\''+data.data[i].id+'\')" >查看详情</button></li>';
+					
+					
+						
+					}
+					$("#listUl").html(str);
+					//$("#detailList").html(str);
+					
+					
+					
+					},'json'
+				);
+			
+			
+			}
 
 		</script>
 	</body>

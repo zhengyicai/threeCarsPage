@@ -3,5 +3,14 @@
 	height: 0px;
 }
 .mui-pages{
-	top:0px
+	top:0px;
+}
+
+.mui-bar-nav{
+	display: none;
+	height: 0px;
+	
+}
+.mui-content{
+	margin-top: -40px;
 }

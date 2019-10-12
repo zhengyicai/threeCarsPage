@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title>首次下单</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -116,6 +116,14 @@
 		<script src="./js/path.js"></script>
 		<script src="./js/jquery-v1.10.3.min.js"></script>
 		<script>
+			
+			$wxId = getQueryVariable("openId");
+			
+			localStorage.setItem("wxId",getQueryVariable("openId"));
+			localStorage.setItem("nickname",getQueryVariable("nickname"));
+			localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
+			
+			
 			var wxIds = $wxId; 
 			var ids = "";
 			var persons = "";
@@ -289,7 +297,7 @@
 						
 						var person = {
 							userId:"",
-						    wxId:"1212odHLq5jSebhOFKllB6xelPSo6Szk",
+						    wxId:wxIds,
 						    contactName:$("#contactName").val(),
 						    contactMobile:$("#contactMobile").val(),
 						    city:city,

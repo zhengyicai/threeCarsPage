@@ -3,13 +3,14 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title>编辑地址</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="./css/mui.min.css">
 		<link href="./css/mui.picker.css" rel="stylesheet" />
 		<link href="./css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
 		<style>
 			h5 {
 				margin: 5px 7px;
@@ -86,6 +87,10 @@
 		<script src="./js/path.js"></script>
 		<script src="./js/jquery-v1.10.3.min.js"></script>
 		<script>
+			
+			
+			$wxId = localStorage.getItem("wxId");
+			//alert($wxId);
 			var wxIds = $wxId; 
 			var ids = "";
 			var persons = "";
@@ -162,7 +167,7 @@
 					
 					persons = {
 							userId:"",
-						    wxId:"1212odHLq5jSebhOFKllB6xelPSo6Szk",
+						    wxId:wxIds,
 						    contactName:"",
 						    contactMobile:"",
 						    city:"广东",
@@ -247,7 +252,7 @@
 						
 						var person = {
 							userId:"",
-						    wxId:"1212odHLq5jSebhOFKllB6xelPSo6Szk",
+						    wxId:wxIds,
 						    contactName:$("#contactName").val(),
 						    contactMobile:$("#contactMobile").val(),
 						    city:"广东",
@@ -256,6 +261,13 @@
 						    detail:$("#addressDetail").val(),
 						    type:"20"
 						};
+						
+						person.contactMobile = $("#contactMobile").val();
+						person.contactName = $("#contactName").val();
+						person.detail = $("#addressDetail").val();
+						person.city = city;
+						person.country = country;
+						person.town = town;
 						
 							
 						mui.ajax($server_path+"/homeApp/address/add",{

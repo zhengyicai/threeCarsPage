@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>首次下单</title>
+		<title>一键下单</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,6 +13,7 @@
 		<!--App自定义的css-->
 		<link rel="stylesheet" type="text/css" href="./css/app.css"/>
 		<link rel="stylesheet" type="text/css" href="./css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
 	</head>
 	<style type="text/css">
 		* { touch-action: none; }
@@ -150,14 +151,17 @@
 
 	</style>
 	<style>
-		
+		/* .headerShow{
+			display: none;
+		} */
 	
 
 	</style>
+	
 	<body>
-		<header class="mui-bar mui-bar-nav">
+		<header class="mui-bar mui-bar-nav" > 
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		    <h1 class="mui-title">首次下单</h1>
+		    <h1 class="mui-title">一键下单</h1>
 		</header>
 		<div class="mui-content">
 		
@@ -204,7 +208,7 @@
 			<div class="mui-card">
 				<ul class="mui-table-view">
 					<li class="mui-table-view-cell table-span">
-						<a class="mui-navigate-right mui-tab-item" href="#delete">回收地址<span id="addressDefault">广东省深圳市观澜喜茶</span></a>
+						<a class="mui-navigate-right mui-tab-item" href="#delete">回收地址<span id="addressDefault"></span></a>
 					</li>
 				</ul>
 				<div id="delete" class="mui-popover mui-scroll  mui-popover-action mui-popover-bottom">
@@ -282,14 +286,30 @@
 	</script>
 	<script>
 		
-		var wxIds = $wxId;
+		
+		
 		var addressDefaultId = "";
 		var doorTime = "";
 		
-		localStorage.setItem("wxId",'1212odHLq5jSebhOFKllB6xelPSo6Szk');
-		localStorage.setItem("nickname",'ZhengYC');
-		localStorage.setItem("imageurl",'http://thirdwx.qlogo.cn/mmopen/vi_32/DYAIOgq83eqb0wj4Tof5FbrZuGyEsmX0lmayEjlYpibFy6JxuaP11Kjc4XJKic2z6dZBbx5Hsf0Q3H9syw7Da9HA/132');
+	
+		//alert(getQueryVariable("wxId"));
+		// $wxId = getQueryVariable("openId");
+		// console.log($wxId);
+		// localStorage.setItem("wxId",getQueryVariable("openId"));
+		// localStorage.setItem("nickname",getQueryVariable("nickname"));
+		// localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
 		
+		if(getQueryVariable("openId") ==null || getQueryVariable("openId") =="null" || getQueryVariable("openId") ==false ){
+			$wxId = localStorage.getItem("wxId");
+		}else{
+			$wxId = getQueryVariable("openId");
+			localStorage.setItem("wxId",getQueryVariable("openId"));
+			localStorage.setItem("nickname",getQueryVariable("nickname"));
+			localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
+		}
+		
+		
+		var wxIds = $wxId;
 			
 		function fun(){
 			
@@ -519,7 +539,20 @@
 						timeout:10000,//超时时间设置为10秒；
 						headers:{'Content-Type':'application/json'},	              
 						success:function(data){
-							alert(data.message);
+							
+							if(data.code="0000"){
+								mui.toast("下单成功");
+									setTimeout(function(){
+										window.location.href="orderTabs1.html";
+									//window.location.href="manage.html";
+								},500);		
+							}else{
+								alert(data.message);
+								return;
+							}
+							
+							
+							
 							//window.location.href="first.html";
 						},
 						error:function(xhr,type,errorThrown){

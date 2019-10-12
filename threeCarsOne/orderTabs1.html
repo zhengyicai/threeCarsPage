@@ -3,12 +3,13 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title>订单列表</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="./css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
 		<style>
 			html,
 			body {
@@ -92,7 +93,7 @@
 			<h1 class="mui-title">订单列表</h1>
 		</header>
 		<div class="mui-content">
-			<div id="slider" class="mui-slider mui-fullscreen">
+			<div id="slider" class="mui-slider mui-fullscreen" style="margin-top: -40px;">
 				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
 					
 					<div class="mui-scroll mui-row" style="width: 100%;">
@@ -169,6 +170,21 @@
 					indicators: true, //是否显示滚动条
 					deceleration:deceleration
 				});
+				
+				
+				
+				
+				
+				if(getQueryVariable("openId") ==null || getQueryVariable("openId") =="null" || getQueryVariable("openId") ==false ){
+					$wxId = localStorage.getItem("wxId");
+				}else{
+					$wxId = getQueryVariable("openId");
+					localStorage.setItem("wxId",getQueryVariable("openId"));
+					localStorage.setItem("nickname",getQueryVariable("nickname"));
+					localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
+				}
+				
+				
 				var wxIds = $wxId; 
 				var count2 = 0;
 				var count21 = 0;

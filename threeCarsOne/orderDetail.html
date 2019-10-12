@@ -3,13 +3,14 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>Hello MUI</title>
+		<title>订单详情</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		<link rel="stylesheet" href="./css/mui.min.css">
 		<link href="./css/mui.picker.css" rel="stylesheet" />
 		<link href="./css/mui.poppicker.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
 		<style>
 			h5 {
 				margin: 5px 7px;
@@ -73,7 +74,7 @@
 						<input type="text" class="mui-input-clear" placeholder="" id="contactMobile">
 					</div>	
 				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
-						<a>拒绝</a>
+						<a id="over">拒绝</a>
 						<a id="save">接单</a>
 						
 				</div>
@@ -104,6 +105,38 @@
 				var person ={
 					id:ids,
 					type:"20",
+					carId:wxIds
+				}
+				
+				mui.ajax($server_path+"/homeApp/order/updateState",{
+					data:person,
+					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						if(data.code ="0000"){
+							mui.toast("接单成功");
+							setTimeout(function(){
+							window.location.href="manage.html?"+new Date();
+						},500);	
+						}
+						
+						
+						
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+			});
+			
+			
+			$("#over").click(function(){
+				var person ={
+					id:ids,
+					type:"60",
 					carId:wxIds
 				}
 				

@@ -1,5 +1,6 @@
-$server_path = "http://148.70.40.47:8080/app";
-//$server_path = "http://192.168.1.7:8080/app";
+//$server_path = "http://148.70.40.47:8080/app";
+$server_path = "http://192.168.2.102:8080/app";
+//$server_path = "http://10.88.178.236:8080/app";
 $wxId = "";
 $pageSize=5;
 
@@ -56,6 +57,8 @@ function getStatus(name){
 		return '<span style="color:green">订单完成</span>';
 	}else if(name =='50'){
 		return  '<span style="color:green">已结算</span>';
+	}else if(name =='60'){
+		return  '<span style="color:red">订单取消</span>';
 	}else{
 		return "";
 	}	

@@ -9,6 +9,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="./css/mui.min.css">
+		<link rel="stylesheet" href="./css/header.css">
 		<style type="text/css">
 			.mui-content>.mui-table-view:first-child {
 				margin-top: -1px;
@@ -60,6 +61,16 @@
 				}
 			});
 			var wxIds = $wxId; 
+			if(getQueryVariable("openId") ==null || getQueryVariable("openId") =="null" || getQueryVariable("openId") ==false ){
+				$wxId = localStorage.getItem("wxId");
+				wxIds = localStorage.getItem("wxId");
+			}else{
+				$wxId = getQueryVariable("openId");
+				 wxIds = getQueryVariable("openId");
+				localStorage.setItem("wxId",getQueryVariable("openId"));
+				localStorage.setItem("nickname",getQueryVariable("nickname"));
+				localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
+			}
 			var count = 0;
 			var sumCount = 2;
 			function pullupRefresh() {

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>订单列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar~.mui-content .mui-fullscreen {
+				top: 44px;
+				height: auto;
+			}
+			.mui-pull-top-tips {
+				position: absolute;
+				top: -20px;
+				left: 50%;
+				margin-left: -25px;
+				width: 40px;
+				height: 40px;
+				border-radius: 100%;
+				z-index: 1;
+			}
+			.mui-bar~.mui-pull-top-tips {
+				top: 24px;
+			}
+			.mui-pull-top-wrapper {
+				width: 42px;
+				height: 42px;
+				display: block;
+				text-align: center;
+				background-color: #efeff4;
+				border: 1px solid #ddd;
+				border-radius: 25px;
+				background-clip: padding-box;
+				box-shadow: 0 4px 10px #bbb;
+				overflow: hidden;
+			}
+			.mui-pull-top-tips.mui-transitioning {
+				-webkit-transition-duration: 200ms;
+				transition-duration: 200ms;
+			}
+			.mui-pull-top-tips .mui-pull-loading {
+				/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+				
+				margin: 0;
+			}
+			.mui-pull-top-wrapper .mui-icon,
+			.mui-pull-top-wrapper .mui-spinner {
+				margin-top: 7px;
+			}
+			.mui-pull-top-wrapper .mui-icon.mui-reverse {
+				/*-webkit-transform: rotate(180deg) translateZ(0);*/
+			}
+			.mui-pull-bottom-tips {
+				text-align: center;
+				background-color: #efeff4;
+				font-size: 15px;
+				line-height: 40px;
+				color: #777;
+			}
+			.mui-pull-top-canvas {
+				overflow: hidden;
+				background-color: #fafafa;
+				border-radius: 40px;
+				box-shadow: 0 4px 10px #bbb;
+				width: 40px;
+				height: 40px;
+				margin: 0 auto;
+			}
+			.mui-pull-top-canvas canvas {
+				width: 40px;
+			}
+			.mui-slider-indicator.mui-segmented-control {
+				background-color: #efeff4;
+			}
+			
+			.mui-popup {
+				top:40%;
+			}
+			
+			.mui-toast-container {top: 30% !important;}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单列表</h1>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider mui-fullscreen" style="margin-top: -40px;">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					
+					<div class="mui-scroll mui-row" style="width: 100%;">
+						<a class="mui-control-item mui-col-sm-4 mui-col-xs-4 items"  style="width: 33%;" id="item1" href="#item1mobile">
+							待接单
+						</a>
+						<a class="mui-control-item mui-col-sm-4 mui-col-xs-4 items"  style="width: 33%;" id="item2"  href="#item2mobile">
+							待收纸
+						</a>
+						<a class="mui-control-item mui-col-sm-4 mui-col-xs-4 items" style="width: 33%;" onclick="ddd()" id="item3"  href="#item3mobile">
+							已完成
+						</a>
+						
+					</div>
+				</div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="list0">
+									
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="list1">
+									<!--<li class="mui-table-view-cell">
+										第2个选项卡子项-1
+									</li>-->
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view" id="list2">
+									<!--<li class="mui-table-view-cell">
+										第3个选项卡子项-1
+									</li>
+									<li class="mui-table-view-cell">
+										第3个选项卡子项-2
+									</li>-->
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom" style="top: 250px; ">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">用户取消订单</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">用户地址问题</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">用户不接电话</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">已卖给他人</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">超时未收取消</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">超出服务范围</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view" id="test111" >
+					<li class="mui-table-view-cell">
+						<a href="#picture" ><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<script src="./js/mui.min.js"></script>
+		<script src="./js/mui.pullToRefresh.js"></script>
+		<!--<script src="./js/mui.pullToRefresh.material.js"></script>-->
+		<script src="./js/path.js"></script>
+		<script src="./js/jquery-v1.10.3.min.js"></script>
+		<script>
+			
+			
+			
+			
+			mui.init();
+			if(getQueryVariable("openId") ==null || getQueryVariable("openId") =="null" || getQueryVariable("openId") ==false ){
+				$wxId = localStorage.getItem("wxId");
+			}else{
+				$wxId = getQueryVariable("openId");
+				localStorage.setItem("wxId",getQueryVariable("openId"));
+				localStorage.setItem("nickname",getQueryVariable("nickname"));
+				localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
+			}
+			
+			
+			var wxIds = $wxId; 
+			(function($) {
+				//阻尼系数
+				var deceleration = mui.os.ios?0.003:0.0009;
+				$('.mui-scroll-wrapper').scroll({
+					bounce: false,
+					indicators: true, //是否显示滚动条
+					deceleration:deceleration
+				});
+				
+				
+				
+				// $(".test1").onclick =function(){
+				// 	alert("asdf");
+				// });
+				
+				
+				
+				
+				
+				
+				var count2 = 0;
+				var count21 = 0;
+				var count22 = 0;
+				
+				var sumCount = 1;
+				var sumCount1 = 1;
+				var sumCount2 = 1;
+				
+				
+				
+				
+				
+				var cho = 0;
+				$.ready(function() {
+					//循环初始化所有下拉刷新，上拉加载。
+					$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+						$(pullRefreshEl).pullToRefresh({
+//							down: {
+//								callback: function() {
+//									var self = this;
+//									setTimeout(function() {
+//										var ul = self.element.querySelector('.mui-table-view');
+//										ul.insertBefore(createFragment(ul, index, 10, true), ul.firstChild);
+//										self.endPullDownToRefresh();
+//									}, 1000);
+//								}
+//							},
+							up: {
+								auto:true,
+								callback: function() {
+									var self = this;
+									setTimeout(function() {
+										//var ul = self.element.querySelector('.mui-table-view');
+										
+										if(cho<3){
+											//count2+=1;	
+										}else{
+											
+//											count2 =1;
+//											count21=1;
+//											count22=1;
+										}
+										if(cho ==0){
+											count2 = 0;
+											count21=0;
+											count22=0;
+											
+											mui.toast("加载成功");
+										}
+										cho++;
+//										
+										//alert("fuck");
+										
+										//alert("cho="+cho+"count="+count2);
+										
+										if(index ==0){
+											count2++;
+											self.endPullUpToRefresh((count2 > sumCount));
+											loadData(index,count2);	
+										}else if(index ==1){
+											count21++;
+											self.endPullUpToRefresh((count21 > sumCount1));
+											loadData(index,count21);
+										}else if(index ==2){
+											count22++;
+											self.endPullUpToRefresh((count22 > sumCount2));
+											loadData(index,count22);
+										}
+										
+										//cho = index;
+										
+										//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count2 > sumCount)); //参数为true代表没有更多数据了。
+										
+										//alert(count2 +","+ sumCount);
+										
+									}, 1000);
+								}
+							}
+						});
+					});
+//					var createFragment = function(ul, index, count, reverse) {
+//						var length = ul.querySelectorAll('li').length;
+//						var fragment = document.createDocumentFragment();
+//						var li;
+//						for (var i = 0; i < count; i++) {
+//							li = document.createElement('li');
+//							li.className = 'mui-table-view-cell';
+//							li.innerHTML = '第' + (index + 1) + '个选项卡子项-' + (length + (reverse ? (count - i) : (i + 1)));
+//							fragment.appendChild(li);
+//						}
+//						return fragment;
+//					};
+					
+					var str = "";
+					var str1 = "";
+					var str2 = "";
+					
+					
+						
+					
+					
+					
+					
+					function loadData(ina,cc){
+					//alert(ina);
+					var person = {
+						pageSize:$pageSize,
+						pageNumber:cc,
+						wxId:wxIds,
+						type: ina==0?"10":ina==1?"20":"",
+						isError:ina==2?"40":""
+					};
+//					if(ina ==0){
+//						sumCount = 0;
+//					}else if(ina ==1){
+//						sumCount1 = 0;
+//					}else if(ina ==2){
+//						sumCount2 = 0;
+//					}
+					
+					
+					mui.ajax($server_path+"/homeApp/getOrderList",{
+						data:person,
+						dataType:'json',//服务器返回json格式数据
+						type:'get',//HTTP请求类型
+						async: false,
+						success:function(data){
+							if(ina ==0){
+								sumCount = data.page.pageCount;
+							}else if(ina ==1){
+								sumCount1 = data.page.pageCount;
+							}else if(ina ==2){
+								sumCount2 = data.page.pageCount;
+							}
+							
+							//sumCount = data.page.pageCount;
+							// function gettype(name){
+							// 	if(name =='20'){
+							// 		return 	 "20-50斤";
+							// 	}else if(name =='51'){
+							// 		return "51-100斤";
+							// 	}else if(name =='101'){
+							// 		return "101-500斤";
+							// 	}else if(name =='500'){
+							// 		return "500斤以上";
+							// 	}else{
+							// 		return "";
+							// 	}
+								
+							// }
+							//alert(data.data.length);
+							//count = data.data.length;
+							for(var i = 0;i<data.data.length;i++){
+								
+								var ss = "预计重量:"+gettype(data.data[i].weight);
+								if(ina ==0){
+								str+='<li class="mui-table-view-cell" >';
+								str+='<div style="border-bottom: 1px solid #666666;">';
+								str+='<span style="color: #666666; ">'+'订单编号:'+data.data[i].id+'</span>'; 
+								str+='<span style="color: #666666; margin-left: 15%;  color: green;">'+ss+'</span></div>';
+								//str+='<div><span>订单编号:'+data.data[i].id+'</span> </div>';
+								str+='<div ><div class="mui-col-sm-10 mui-col-xs-10 mui-col-md-10" style="float:left"><span>上门时间:'+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span> <br/>';
+								str+='<div><span>顾客地址:'+data.data[i].city+data.data[i].country+data.data[i].town+data.data[i].detail+'</span></div>';
+								str+='<div><span>顾客信息:'+data.data[i].contactName+data.data[i].contactMobile+'</span> </div>';
+								str+="</div>";
+								str+='<div class="mui-col-sm-2 mui-col-xs-2 mui-col-md-2" style="float:left;padding-top:10px;font-size:16px"><a class="mui-btn-danger test1" style="padding:5px"  onclick="getDetail(\''+data.data[i].id+'\')" >取消</a><div style="height:15px"></div><buttom class="mui-btn-success" style="padding:5px" onclick="save(\''+data.data[i].id+'\')" >接单</buttom></div></div></li>';
+								
+								
+								}else if(ina ==1){
+									str1+='<li class="mui-table-view-cell" >';
+									str1+='<div style="border-bottom: 1px solid #666666;">';
+									str1+='<span style="color: #666666; ">'+'订单编号:'+data.data[i].id+'</span>'; 
+									str1+='<span style="color: #666666; margin-left: 15%;  color: green;">'+ss+'</span></div>';
+									//str+='<div><span>订单编号:'+data.data[i].id+'</span> </div>';
+									str1+='<div ><div class="mui-col-sm-10 mui-col-xs-10 mui-col-md-10" style="float:left"><span>上门时间:'+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span> <br/>';
+									str1+='<div><span>顾客地址:'+data.data[i].city+data.data[i].country+data.data[i].town+data.data[i].detail+'</span></div>';
+									str1+='<div><span>顾客信息:'+data.data[i].contactName+data.data[i].contactMobile+'</span> </div>';
+									str1+="</div>";
+									str1+='<div class="mui-col-sm-2 mui-col-xs-2 mui-col-md-2" style="float:left;padding-top:10px;font-size:16px"><div style="height:15px"></div><buttom  onclick="saveDetail(\''+data.data[i].id+'\')" class="mui-btn-success" style="padding:5px">结算</buttom></div></div></li>';
+									
+								}else if(ina ==2){
+									//alert(new Date(data.data[i].doorTime).format("yyyy-MM-dd")+"++"+ new Date().format("yyyy-MM-dd"));
+									if(data.data[i].type!='10' && data.data[i].type!='20' &&  (new Date(data.data[i].doorTime).format("yyyy-MM-dd") == new Date().format("yyyy-MM-dd"))){
+										ss = "成交价:"+data.data[i].buyprice;
+										str2+='<li class="mui-table-view-cell" onclick="detail(\''+data.data[i].id+'\')">';
+										str2+='<div style="border-bottom: 1px solid #666666;">';
+										str2+='<span style="color: #666666; ">'+'订单编号:'+data.data[i].id+'</span>'; 
+										str2+='<span style="color: #666666; margin-left: 15%;  color: green;">'+ss+'</span></div>';
+										//str+='<div><span>订单编号:'+data.data[i].id+'</span> </div>';
+										str2+='<div ><div class="mui-col-sm-10 mui-col-xs-10 mui-col-md-10" style="float:left"><span>上门时间:'+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span> <br/>';
+										str2+='<div><span>顾客地址:'+data.data[i].city+data.data[i].country+data.data[i].town+data.data[i].detail+'</span></div>';
+										str2+='<div><span>顾客信息:'+data.data[i].contactName+data.data[i].contactMobile+'</span> </div>';
+										str2+="</div>";
+										
+											if(data.data[i].type=="30" || data.data[i].type=="60"){
+												str2+='<div class="mui-col-sm-2 mui-col-xs-2 mui-col-md-2" style="float:left;padding-top:10px;font-size:14px"><div style="height:14px;color:red">取消订单</div></div></div>';
+											}else{
+												str2+='<div class="mui-col-sm-2 mui-col-xs-2 mui-col-md-2" style="float:left;padding-top:10px;font-size:14px"><div style="height:14px;color:green">完成订单</div></div></div>';
+													
+											}
+											
+										
+										
+										str2+='</li>';
+										
+									}
+								
+								}
+							
+								
+							}
+							//$("#list"+ina).html("tests");
+							//alert(str);
+							if(ina ==0){
+								document.getElementById("list"+ina).innerHTML = str;	
+							}else if(ina==1){
+								document.getElementById("list"+ina).innerHTML = str1;
+							}else if(ina =2){
+								document.getElementById("list"+ina).innerHTML = str2;
+							}
+						}
+					});
+					
+					
+					
+					
+					
+					
+				
+				
+				}
+				
+				
+//				document.getElementById("item1").onclick= function(){
+//					document.getElementById("list0").innerHTML = "";
+//					document.getElementById("list1").innerHTML = "";
+//					document.getElementById("list2").innerHTML = "";
+//					count2 = 1;
+//					sumCount = 1;
+//					str = "";
+//					loadData(0);
+//}
+//				document.getElementById("item2").onclick= function(){
+//					document.getElementById("list0").innerHTML = "";
+//					document.getElementById("list1").innerHTML = "";
+//					document.getElementById("list2").innerHTML = "";
+//					count2 = 1;
+//					sumCount = 1;
+//					str1 = "";
+//					loadData(1);
+//				}
+//				document.getElementById("item3").onclick= function(){
+//					document.getElementById("list0").innerHTML = "";
+//					document.getElementById("list1").innerHTML = "";
+//					document.getElementById("list2").innerHTML = "";
+//					count2 = 1;
+//					sumCount = 1;
+//					str2 = "";
+//					loadData(2);
+//				}
+					
+//				count2=1;
+//				loadData(0);
+//				function  ddd(){
+//					alert("asdf");
+//				}
+//					
+					
+					
+					
+				});
+			})(mui);
+		</script>
+		<script>
+			
+			var ids1 = "";
+			function detail(ids){
+						
+						window.location.href="userorderDetail.html?ids="+ids;
+					}
+			//结算
+			function saveDetail(ids){
+				window.location.href="saveDetail.html?ids="+ids;
+			}	
+			function getDetail(ids){
+				//alert(ids);
+						ids1 = ids;
+						
+				       mui('#picture').popover('toggle');  
+				   
+			
+			
+				
+			}
+			
+			mui('body').on('tap', '.mui-popover-action li>a', function() {
+				var a = this,
+					parent;
+				//根据点击按钮，反推当前是哪个actionsheet
+				for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+					if (parent.classList.contains('mui-popover-action')) {
+						break;
+					}
+				}
+				//关闭actionsheet
+				mui('#' + parent.id).popover('toggle');
+				//alert(a.innerHTML);
+				
+				if(a.innerHTML=="<b>取消</b>"){
+					
+				}else{
+					
+					var person ={
+						id:ids1,
+						type:"60",
+						carId:wxIds,
+						remark:a.innerHTML
+					}
+					
+					mui.ajax($server_path+"/homeApp/order/updateState",{
+						data:person,
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},	              
+						success:function(data){
+							if(data.code ="0000"){
+								mui.toast("取消成功");
+								setTimeout(function(){
+									//alert("取消成功");
+									location.reload();
+								},500);	
+							}
+							
+							
+							
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+					
+					
+				}
+				
+				
+				
+				//info.innerHTML = "你刚点击了\"" + a.innerHTML + "\"按钮";
+			})
+			
+			
+			function  save(ids){
+				
+				var btnArray = ['否', '是'];
+				mui.confirm('确认接单？', '', btnArray, function(e) {
+					if (e.index == 1) {
+						//info.innerText = '你刚确认MUI是个好框架';
+						var person ={
+							id:ids,
+							type:"20",
+							carId:wxIds
+						}
+						
+						mui.ajax($server_path+"/homeApp/order/updateState",{
+							data:person,
+							dataType:'json',//服务器返回json格式数据
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							headers:{'Content-Type':'application/json'},	              
+							success:function(data){
+								if(data.code ="0000"){
+									mui.toast("接单成功");
+									setTimeout(function(){
+									location.reload();
+								},500);	
+								}
+								
+								
+								
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+					} else {
+						return;
+					}
+				})
+				
+				
+				
+				
+				
+				
+			}
+			
+			
+			
+		</script>
+	</body>
+
+</html>

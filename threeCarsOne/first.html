@@ -521,6 +521,9 @@
 					
 				})
 				
+				
+				var butCount = 0;
+				
 				$("#addOrder").click(function(){
 					
 					
@@ -532,6 +535,21 @@
 						doorTimes:doorTime
 					}
 					
+					//重复提交事件
+					
+					if(butCount ==1){
+						return;
+					}
+					
+					setTimeout(function(){
+						butCount = 0;
+						//window.location.href="manage.html";
+					},2000);
+					butCount = 1;
+					//console.log("asdf");
+					//alert($("#addOrder").val();
+					//return;
+					
 					mui.ajax($server_path+"/homeApp/order/add",{
 						data:person,
 						dataType:'json',//服务器返回json格式数据
@@ -540,14 +558,14 @@
 						headers:{'Content-Type':'application/json'},	              
 						success:function(data){
 							
-							if(data.code="0000"){
+							if(data.code=="0000"){
 								mui.toast("下单成功");
 									setTimeout(function(){
-										window.location.href="orderTabs1.html";
+									window.location.href="orderTabs1.html";
 									//window.location.href="manage.html";
 								},500);		
 							}else{
-								alert(data.message);
+								mui.toast(data.message);
 								return;
 							}
 							

@@ -74,7 +74,7 @@
 						<input type="text" class="mui-input-clear" placeholder="" id="contactMobile">
 					</div>	
 				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
-						<a id="over">拒绝</a>
+						<a href="#picture" id="over">拒绝</a>
 						<a id="save">接单</a>
 						
 				</div>
@@ -84,6 +84,34 @@
 						<button type="button" class="mui-btn mui-btn-danger" onclick="return false;">取消</button>
 					</div>-->
 				</form>
+			</div>
+			
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#">用户取消订单</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">用户地址问题</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">用户不接电话</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">已卖给他人</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">超时未收取消</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#">超出服务范围</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view" >
+					<li class="mui-table-view-cell">
+						<a href="#picture"><b>取消</b></a>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<script src="./js/mui.min.js"></script>
@@ -95,7 +123,7 @@
 		<script src="./js/path.js"></script>
 		<script src="./js/jquery-v1.10.3.min.js"></script>
 		<script>
-			var wxIds = $wxId; 
+			var wxIds = localStorage.getItem("wxId"); 
 			var ids = "";
 			var persons = "";
 			
@@ -134,34 +162,34 @@
 			
 			
 			$("#over").click(function(){
-				var person ={
-					id:ids,
-					type:"60",
-					carId:wxIds
-				}
+				// var person ={
+				// 	id:ids,
+				// 	type:"60",
+				// 	carId:wxIds
+				// }
 				
-				mui.ajax($server_path+"/homeApp/order/updateState",{
-					data:person,
-					dataType:'json',//服务器返回json格式数据
-					type:'post',//HTTP请求类型
-					timeout:10000,//超时时间设置为10秒；
-					headers:{'Content-Type':'application/json'},	              
-					success:function(data){
-						if(data.code ="0000"){
-							mui.toast("接单成功");
-							setTimeout(function(){
-							window.location.href="manage.html";
-						},500);	
-						}
+				// mui.ajax($server_path+"/homeApp/order/updateState",{
+				// 	data:person,
+				// 	dataType:'json',//服务器返回json格式数据
+				// 	type:'post',//HTTP请求类型
+				// 	timeout:10000,//超时时间设置为10秒；
+				// 	headers:{'Content-Type':'application/json'},	              
+				// 	success:function(data){
+				// 		if(data.code ="0000"){
+				// 			mui.toast("接单成功");
+				// 			setTimeout(function(){
+				// 			window.location.href="manage.html";
+				// 		},500);	
+				// 		}
 						
 						
 						
-					},
-					error:function(xhr,type,errorThrown){
-						//异常处理；
-						console.log(type);
-					}
-				});
+				// 	},
+				// 	error:function(xhr,type,errorThrown){
+				// 		//异常处理；
+				// 		console.log(type);
+				// 	}
+				// });
 			})
 			
 			
@@ -191,6 +219,62 @@
 					
 				}
 			});
+			
+			
+			mui('body').on('tap', '.mui-popover-action li>a', function() {
+				var a = this,
+					parent;
+				//根据点击按钮，反推当前是哪个actionsheet
+				for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+					if (parent.classList.contains('mui-popover-action')) {
+						break;
+					}
+				}
+				//关闭actionsheet
+				mui('#' + parent.id).popover('toggle');
+				//alert(a.innerHTML);
+				
+				if(a.innerHTML=="<b>取消</b>"){
+					
+				}else{
+					
+					var person ={
+						id:ids,
+						type:"60",
+						carId:wxIds,
+						remark:a.innerHTML
+					}
+					
+					mui.ajax($server_path+"/homeApp/order/updateState",{
+						data:person,
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						headers:{'Content-Type':'application/json'},	              
+						success:function(data){
+							if(data.code ="0000"){
+								mui.toast("接单成功");
+								setTimeout(function(){
+								window.location.href="manage.html";
+							},500);	
+							}
+							
+							
+							
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							console.log(type);
+						}
+					});
+					
+					
+				}
+				
+				
+				
+				//info.innerHTML = "你刚点击了\"" + a.innerHTML + "\"按钮";
+			})
 			
 			
 			

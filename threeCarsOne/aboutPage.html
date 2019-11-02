@@ -29,14 +29,14 @@
 						<img src="img/logo1.jpg" style="width: 100px; height: 100px; margin: 100px 0px 50px 0px ">
 						</div>
 						<ul class="mui-table-view">
-							<li class="mui-table-view-cell" style="height: 150px;">
+							<li class="mui-table-view-cell" style="height: 150px;" id="detail">
 								test
 							</li>
 							<li class="mui-table-view-cell">
-								<a>电话<span  style="margin-left:30px">18601234567</span></a>
+								<a>电话<span  style="margin-left:30px" id="mobile"></span></a>
 							</li>
 							<li class="mui-table-view-cell">
-								<a>邮箱<span style="margin-left:30px">hbuilder@dcloud.io</span></a>
+								<a>邮箱<span style="margin-left:30px" id="email"></span></a>
 							</li>
 						</ul>
 					</div>
@@ -44,8 +44,35 @@
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-v1.10.3.min.js"></script>
+		<script src="js/path.js"></script>
+		
 		<script type="text/javascript">
 			mui.init()
+		</script>
+		<script>
+			
+			mui.get($server_path+"/homeApp/para/list",{},function(data){
+				
+				for(var i =0;i<data.data.length;i++){
+					
+					if(data.data[i].paraName=="email"){
+						$("#email").html(data.data[i].paraValue);
+					}else if(data.data[i].paraName=="mobile"){
+						$("#mobile").html(data.data[i].paraValue);
+					}else if(data.data[i].paraName=="detail"){
+						$("#detail").html(data.data[i].paraValue);
+					}
+					
+					
+				}
+				//alert(data.data);
+					
+
+				
+			},'json'
+			);
+			//alert(localStorage.getItem("wxId"));
 		</script>
 	</body>
 

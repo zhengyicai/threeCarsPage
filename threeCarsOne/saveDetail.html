@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="stylesheet" href="./css/mui.min.css">
+		<link rel="stylesheet" href="./css/mui.css">
 		<link href="./css/mui.picker.css" rel="stylesheet" />
 		<link href="./css/mui.poppicker.css" rel="stylesheet" />
 		<link rel="stylesheet" type="text/css" href="css/header.css" />
@@ -43,7 +43,29 @@
 			}
 			.mui-input-group .mui-input-row{
 				height: 70px;
+				-webkit-user-select:text !important;
+				color:#000000;
 			}
+			
+			.mui-input-group input:last-child {
+			    background-image: none;
+			}
+			
+			input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+			　color: #000000;
+			　}
+			　input:-moz-placeholder, textarea:-moz-placeholder {
+			　　color: #000000;
+			　}
+			　input::-moz-placeholder, textarea::-moz-placeholder {
+			　　color: #000000;
+			　}
+			　input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+			　　color: #000000;
+			　}
+			
+			
+			
 		</style>
 	</head>
 
@@ -77,12 +99,12 @@
 				</form>	
 					<div class="mui-input-row" style="background-color: white;">
 						<label>合计(元)</label>
-						<label style="color: red;font-size: 18px;" id="sum">100</label>
+						<label style="color: red;font-size: 18px;" id="sum">0</label>
 					</div>
 					
 					
 					
-				<div class="savebuttom mui-bar-footer mui-bar mui-bar-tab" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);">
+				<div class="savebuttom" style="-webkit-box-shadow:0 0 0px rgba(0,0,0,.85); box-shadow:0 0 0px rgba(0,0,0,.85);margin-top:50px;">
 						
 						<a id="save">提交</a>
 						
@@ -109,6 +131,8 @@
 			var persons = "";
 			var count = 0;
 			ids = getUrlParms("ids");
+			wxIds = localStorage.getItem("wxId");
+			//alert(ids);
 			
 			function func(){
 				//alert($("#price0").html()*$("#weight0").val());
@@ -119,7 +143,7 @@
 					
 				}
 				
-				$("#sum").html(count1);
+				$("#sum").html(count1.toFixed(2));
 			}
 			
 			//get请求  获取商品列表
@@ -127,12 +151,14 @@
 
 				var str = "";
 				count = data.data.length;
+				str+="<table>";
 				for(var i = 0;i<data.data.length;i++){
 					//str+='<li class="mui-table-view-cell">'+data.data[i].name+'<span class="mui-pull-right">'+data.data[i].price+'/斤</span></li>';
 					
-					str+='<div class="mui-input-row"><label>'+data.data[i].name+'：（<span id="price'+i+'">'+data.data[i].price+'</span>/斤）</label><input onFocus="func()" text="'+data.data[i].id+'"  text1="'+data.data[i].name+'" oninput="func()" type="number" id="weight'+i+'" placeholder="请输入重量" ></div>'
+					str+='<tr style="height:60px"><td width="60%" style="font-size:16px;padding-left:10px; text-align:left;"><div ><div >'+data.data[i].name+'：（<span id="price'+i+'">'+data.data[i].price+'</span>/斤）</div><td><td width="40%"><input style=" float:left; color:#000000;-webkit-user-select: auto;  " onFocus="func()" text="'+data.data[i].id+'"  text1="'+data.data[i].name+'" oninput="func()" type="number" id="weight'+i+'" placeholder="请输入重量" ></div></td>'
 					
 				}
+				str+="</table>";
 				
 				$("#detailList").html(str);
 				
@@ -149,7 +175,7 @@
 						goodsId:$("#weight"+i).attr("text"),
 						goodsName:$("#weight"+i).attr("text1"),
 						buyPrice:$("#price"+i).html(),
-						buyWeight:$("#weight"+i).val(),
+						buyWeight:$("#weight"+i).val()==""?'0':$("#weight"+i).val(),
 						orderId:ids
 					}
 					per.push(person);
@@ -157,6 +183,8 @@
 				var person={
 					detailLists:per
 				}
+				console.log(person);
+				
 				
 				mui.ajax($server_path+"/homeApp/orderDatail/add",{
 					data:person,
@@ -168,7 +196,8 @@
 						if(data.code ="0000"){
 							mui.toast("提交成功");
 							setTimeout(function(){
-							window.location.href="manage.html?"+new Date();
+							history.back();
+							//window.location.href="manage.html?"+new Date();
 						},500);	
 						}
 						

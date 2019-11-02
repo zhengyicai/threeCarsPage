@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>日台账统计</title>
+		<title>订单列表</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -20,30 +20,30 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">日台账统计</h1>
+			<h1 class="mui-title">订单列表</h1>
 		</header>
 		<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<!--数据列表-->
 				
-				<ul class="mui-table-view mui-table-view-chevron" id="listUl">
-					<!--<li class="mui-table-view-cell">
-						 <div style="font-size: 13px;">
-							<div> <span style="width: 50px;" >时间 2019-09-22</span>   </div>
-							<div>订单量: <span style="font-size: 16px;;margin: 0px 5px; color: green;"> 8</span> &nbsp;&nbsp;收入: <span style="font-size: 16px;margin-left: 5px;color: green;" > 3200 </span>&nbsp;&nbsp;支出:  <span style="font-size: 16px;margin-left: 5px; color: red;" > 2500 </span> </div>
+				<ul class="mui-table-view mui-table-view-chevron" id="listUl" >
+					<!--<li class="mui-table-view-cell detaillist" >
+						 <div class="" style="font-size: 13px;">
+							<div> <span style="width: 50px;" > 预约时间 2019-09-22 10:11:12</span><span style="font-size: 14px;margin-left: 20px;" > 51-200斤 </span>   </div>
+							<div>  郑先生（13536524756）</div>
 						 </div>	
 						<button type="button" class="mui-btn mui-btn-warning" >
-							详情
+							查看详情
 						</button>
 					</li>-->
-				
 				</ul>	
 			</div>
 		</div>
 		<script src="./js/mui.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="./js/jquery-v1.10.3.min.js"></script>
-		<script src="./js/path.js"></script>
+		<script src="js/jquery-v1.10.3.min.js"></script>
+		<script src="js/path.js"></script>
+		<script src="js/jquery-v1.10.3.min.js"></script>	
 		<script>
 			
 			mui.init({
@@ -60,18 +60,18 @@
 					}
 				}
 			});
-			var wxIds = $wxId; 
-			
+			var wxIds = "";
 			if(getQueryVariable("openId") ==null || getQueryVariable("openId") =="null" || getQueryVariable("openId") ==false ){
 				$wxId = localStorage.getItem("wxId");
 				wxIds = localStorage.getItem("wxId");
 			}else{
 				$wxId = getQueryVariable("openId");
-				 wxIds = getQueryVariable("openId");
+				wxIds = getQueryVariable("openId");
 				localStorage.setItem("wxId",getQueryVariable("openId"));
 				localStorage.setItem("nickname",getQueryVariable("nickname"));
 				localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
 			}
+			
 			var count = 0;
 			var sumCount = 2;
 			function pullupRefresh() {
@@ -92,33 +92,34 @@
 			}
 			
 			var str = "";
+			
+			function detail(ids){
+				window.location.href="orderDetail2.html?ids="+ids;
+			}
 			function loadData(){
 				
 				var person = {
 					pageSize:$pageSize,
 					pageNumber:count,
-					wxId:wxIds
+					wxId:wxIds,
+					isError:"40"
 				};
 				sumCount = 0;
-				mui.get($server_path+"/homeApp/orderList/findAll",person,function(data){
+				mui.get($server_path+"/homeApp/getOrderList",person,function(data){
 	
 					sumCount = data.page.pageCount;
 					
 					//alert(data.data.length);
 					//count = data.data.length;
 					for(var i = 0;i<data.data.length;i++){
-						
-						
-						str+='<li class="mui-table-view-cell">';
-						str+='<div style="font-size: 13px;">';
-						str+='<div> <span style="width: 50px;" >时间 '+new Date(data.data[i].createTime).format("yyyy-MM-dd")+'</span>   </div>';
-						str+='<div>订单量: <span style="font-size: 16px;;margin: 0px 5px; color: green;"> '+data.data[i].count1+'</span> &nbsp;&nbsp;收入: <span style="font-size: 16px;margin-left: 5px;color: green;" > '+data.data[i].sellPrice+' </span>&nbsp;&nbsp;支出:  <span style="font-size: 16px;margin-left: 5px; color: red;" > '+data.data[i].buyPrice+' </span> </div>';
-						str+='</div>';	
-						str+='</li>';
+						if(data.data[i].type!='10' && data.data[i].type!='20' &&  (new Date(data.data[i].doorTime).format("yyyy-MM-dd") == new Date().format("yyyy-MM-dd"))){
+						var ss = gettype(data.data[i].type);
+						str+='<li class="mui-table-view-cell detaillist" ><div class="" style="font-size: 13px;">';
+						str+='	<div> <span style="width: 50px;" >'+getStatus(data.data[i].type)+'<br/> 预约时间 '+new Date(data.data[i].doorTime).format("yyyy-MM-dd hh:mm:ss")+'</span><span style="font-size: 14px;margin-left: 18px;" > '+gettype(data.data[i].weight)  +' </span>   </div>';
+						str+='	<div>  '+data.data[i].contactName+'（'+data.data[i].contactMobile+'）</div></div>';
+						str+='<button type="button" class="mui-btn mui-btn-warning"  onclick="detail(\''+data.data[i].id+'\')" >查看详情</button></li>';
+						}
 					
-						//str+='<li class="mui-table-view-cell">'+data.data[i].name+'<span class="mui-pull-right">'+data.data[i].price+'/斤</span></li>';
-						
-						//str+='<div class="mui-input-row"><label>'+data.data[i].name+'：（<span id="price'+i+'">'+data.data[i].price+'</span>/斤）</label><input onFocus="func()" text="'+data.data[i].id+'"  text1="'+data.data[i].name+'" oninput="func()" type="number" id="weight'+i+'" placeholder="请输入重量" ></div>'
 						
 					}
 					$("#listUl").html(str);
@@ -131,29 +132,6 @@
 			
 			
 			}
-			
-
-//			function addData() {
-//				var table = document.body.querySelector('.mui-table-view');
-//				var cells = document.body.querySelectorAll('.mui-table-view-cell');
-//				for(var i = cells.length, len = i + 5; i < len; i++) {
-//					var li = document.createElement('li');
-//					li.className = 'mui-table-view-cell';
-//					li.innerHTML = '<a class="mui-navigate-right">Item ' + (i + 1) + '</a>';
-//					//下拉刷新，新纪录插到最前面；
-//					table.insertBefore(li, table.firstChild);
-//				}
-//			}
-			/**
-			 * 下拉刷新具体业务实现
-			 */
-//			function pulldownRefresh() {
-//				setTimeout(function() {
-//					addData();
-//					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-//					mui.toast("为你推荐了5篇文章");
-//				}, 1500);
-//			}
 
 		</script>
 	</body>

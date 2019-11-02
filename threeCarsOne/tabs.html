@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>收纸哥管理界面</title>
+		<link rel="icon" href="data:image/ico;base64,aWNv">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="./css/mui.min.css">
+		<link rel="stylesheet" href="css/header.css" />
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="./css/app.css"/>
+		<style>
+			
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			.oa-contact-cell.mui-table .mui-table-cell {
+				padding: 11px 0;
+				vertical-align: middle;
+			}
+			
+			.oa-contact-cell {
+				position: relative;
+				margin: -11px 0;
+			}
+	
+			.oa-contact-avatar {
+				width: 75px;
+			}
+			.oa-contact-avatar img {
+				border-radius: 50%;
+			}
+			.oa-contact-content {
+				width: 100%;
+			}
+			.oa-contact-name {
+				margin-right: 20px;
+			}
+			.oa-contact-name, oa-contact-position {
+				float: left;
+			}
+			.mui-table-view-chevron .mui-table-view-cell{
+				padding-right:0px;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">收纸哥管理</h1>
+		</header>
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" href="#tabbar">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="#tabbar-with-chat">
+				<span class="mui-icon mui-icon-compose"><!-- <span class="mui-badge">9</span> --></span>
+				<span class="mui-tab-label">今日</span>
+			</a>
+			<a class="mui-tab-item" href="#tabbar-with-contact">
+				<span class="mui-icon mui-icon-compose"></span>
+				<span class="mui-tab-label">昨日</span>
+			</a>
+			<a class="mui-tab-item" href="#tabbar-with-map">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">个人中心</span>
+			</a>
+		</nav>
+		<div class="mui-content">
+			<div id="tabbar" class="mui-control-content mui-active">
+				<iframe scrolling="no" id="main" name="main" frameborder="0"  src="userorderTab1.html" 
+				        style="min-height:600px;width:100%;height:100%;"></iframe>
+			</div>
+			<div id="tabbar-with-chat" class="mui-control-content">
+				<iframe scrolling="no" id="main1" name="main1" frameborder="0"  src="todaymanage.html"
+				        style="min-height:600px;width:100%;height:100%;"></iframe>
+			</div>
+			<div id="tabbar-with-contact" class="mui-control-content">
+				<iframe scrolling="no" id="main1" name="main1" frameborder="0"  src="yesterdaymanage.html"
+				        style="min-height:600px;width:100%;height:100%;"></iframe>
+				
+			</div>
+			<div id="tabbar-with-map" class="mui-control-content">
+				<iframe scrolling="no" id="main2" name="main2" frameborder="0"  src="manage1.html"
+				        style="min-height:600px;width:100%;height:100%;"></iframe>
+			</div>
+		</div>
+	</body>
+	<script src="./js/mui.min.js"></script>
+	<script src="js/path.js"></script>
+	<script src="js/jquery-v1.10.3.min.js"></script>
+	<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		
+		
+	</script>
+	<script>
+	  // 计算页面的实际高度，iframe自适应会用到
+	  function calcPageHeight(doc) {
+	      var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+	      var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+	      var height  = Math.max(cHeight, sHeight)
+	      return height
+	  }
+	  //根据ID获取iframe对象
+	  var ifr = document.getElementById('main')
+	  ifr.onload = function() {
+	  	  //解决打开高度太高的页面后再打开高度较小页面滚动条不收缩
+	  	  ifr.style.height='0px';
+	      var iDoc = ifr.contentDocument || ifr.document
+	      var height = calcPageHeight(iDoc)
+	      if(height < 850){
+	      	height = 850;
+	      }
+	      ifr.style.height = height+50 + 'px'
+	  }
+	  
+	  
+	  if(getQueryVariable("openId") ==null || getQueryVariable("openId") =="null" || getQueryVariable("openId") ==false ){
+	  	$wxId = localStorage.getItem("wxId");
+	  }else{
+	  	$wxId = getQueryVariable("openId");
+	  	localStorage.setItem("wxId",getQueryVariable("openId"));
+	  	localStorage.setItem("nickname",getQueryVariable("nickname"));
+	  	localStorage.setItem("imageurl",getQueryVariable("headimgurl"));
+	  }
+	</script>
+</html>

@@ -1,5 +1,5 @@
-//$server_path = "http://148.70.40.47:8080/app";
-$server_path = "http://192.168.2.102:8080/app";
+$server_path = "http://148.70.40.47:8080/app";
+//$server_path = "http://192.168.2.102:8080/app";
 //$server_path = "http://10.88.178.236:8080/app";
 $wxId = "";
 $pageSize=5;
